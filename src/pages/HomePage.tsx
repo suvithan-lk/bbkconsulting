@@ -41,10 +41,10 @@ const features = [
 ];
 
 const categories = [
-  { name: 'Financial Services & Banking', tag: 'IFRS 9 & Basel', image: 'https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=400' },
-  { name: 'Real Estate & Construction', tag: 'IFRS 16 Leases', image: 'https://images.pexels.com/photos/3943723/pexels-photo-3943723.jpeg?auto=compress&cs=tinysrgb&w=400' },
-  { name: 'Technology & SaaS', tag: 'Revenue Recognition', image: 'https://images.pexels.com/photos/1181671/pexels-photo-1181671.jpeg?auto=compress&cs=tinysrgb&w=400' },
-  { name: 'Healthcare & Life Sciences', tag: 'Grant Accounting', image: 'https://images.pexels.com/photos/4427380/pexels-photo-4427380.jpeg?auto=compress&cs=tinysrgb&w=400' },
+  { name: 'Financial Services & Banking', tag: 'IFRS 9 & Basel', image: 'https://images.pexels.com/photos/210574/pexels-photo-210574.jpeg?auto=compress&cs=tinysrgb&w=400' },
+  { name: 'Real Estate & Construction', tag: 'IFRS 16 Leases', image: 'https://images.pexels.com/photos/439391/pexels-photo-439391.jpeg?auto=compress&cs=tinysrgb&w=400' },
+  { name: 'Technology & SaaS', tag: 'Revenue Recognition', image: 'https://images.pexels.com/photos/1181677/pexels-photo-1181677.jpeg?auto=compress&cs=tinysrgb&w=400' },
+  { name: 'Healthcare & Life Sciences', tag: 'Grant Accounting', image: 'https://images.pexels.com/photos/4021775/pexels-photo-4021775.jpeg?auto=compress&cs=tinysrgb&w=400' },
 ];
 
 const fadeInUp = {

@@ -1,3 +1,5 @@
+import path from 'path';
+import { fileURLToPath } from 'url';
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
@@ -10,6 +12,9 @@ import { notificationsRouter } from './routes/notifications.js';
 import { reviewsRouter } from './routes/reviews.js';
 
 dotenv.config();
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const distDir = path.join(__dirname, '../../dist');
 
 const app = express();
 app.use(cors());
@@ -30,7 +35,13 @@ app.use((err, req, res, next) => {
   res.status(500).json({ error: 'Internal server error' });
 });
 
+// Serve the built React app and let it handle client-side routing
+app.use(express.static(distDir));
+app.get(/^(?!\/api).*/, (req, res) => {
+  res.sendFile(path.join(distDir, 'index.html'));
+});
+
 const port = process.env.PORT || 4000;
 app.listen(port, () => {
-  console.log(`API server listening on http://localhost:${port}`);
+  console.log(`Server listening on http://localhost:${port}`);
 });

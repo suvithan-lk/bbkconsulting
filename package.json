@@ -1,14 +1,19 @@
 {
-  "name": "vite-react-typescript-starter",
+  "name": "bbk-consultancy",
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "engines": {
+    "node": ">=18"
+  },
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "typecheck": "tsc --noEmit -p tsconfig.app.json"
+    "typecheck": "tsc --noEmit -p tsconfig.app.json",
+    "start": "node server/src/index.js",
+    "postinstall": "npm --prefix server install && npm run build"
   },
   "dependencies": {
     "@headlessui/react": "^2.2.10",
