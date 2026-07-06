@@ -91,7 +91,7 @@ export function HomePage() {
       {/* Hero Section */}
       <section className="relative min-h-[90vh] flex items-center">
         <div
-          className="absolute inset-0 opacity-15"
+          className="absolute inset-0 opacity-10"
           style={{
             backgroundImage:
               'url("https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=1920")',
@@ -99,7 +99,7 @@ export function HomePage() {
             backgroundPosition: 'center',
           }}
         />
-        <div className="absolute inset-0 bg-gradient-to-br from-primary-900/95 via-primary-800/92 to-navy-900/97" />
+        <div className="absolute inset-0 bg-gradient-to-br from-primary-950/95 via-primary-900/95 to-navy-950/95" />
         <div className="absolute inset-0 dot-pattern opacity-10" />
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-32">
@@ -128,7 +128,7 @@ export function HomePage() {
 
             <motion.p
               variants={fadeInUp}
-              className="text-lg md:text-xl text-slate-300 mb-4 max-w-2xl"
+              className="text-lg md:text-xl text-slate-100/90 mb-4 max-w-2xl leading-relaxed [text-shadow:0_2px_8px_rgba(0,0,0,0.35)]"
             >
               BBK Consultancy delivers world-class accounting advisory, UAE Corporate Tax and VAT
               planning, audit support, and free zone &amp; mainland company formation — trusted by
@@ -137,7 +137,7 @@ export function HomePage() {
 
             <motion.p
               variants={fadeInUp}
-              className="text-sm text-slate-400 mb-8 max-w-2xl italic"
+              className="text-sm text-slate-400/90 mb-8 max-w-2xl italic border-l-2 border-gold-400/50 pl-3"
             >
               The activity must align with the trade license categories: Tax Consultancy,
               Accounting &amp; Bookkeeping, and Corporate Services providers.

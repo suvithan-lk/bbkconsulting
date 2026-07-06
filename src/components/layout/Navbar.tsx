@@ -23,7 +23,6 @@ const navigation = [
   { name: 'Why BBK', href: '/why-bbk' },
   { name: 'Industries', href: '/industries' },
   { name: 'Consultants', href: '/consultants' },
-  { name: 'Contact', href: '/contact' },
 ];
 
 export function Navbar() {
@@ -87,6 +86,13 @@ export function Navbar() {
 
           {/* Right section */}
           <div className="flex items-center gap-4">
+            <Link
+              to="/contact"
+              className="hidden lg:inline-flex items-center px-5 py-2.5 rounded-lg bg-primary-600 hover:bg-primary-700 text-white text-sm font-semibold shadow-soft transition-colors"
+            >
+              Contact
+            </Link>
+
             {user ? (
               <>
                 {/* Notifications */}
@@ -249,6 +255,13 @@ export function Navbar() {
                   {item.name}
                 </Link>
               ))}
+              <Link
+                to="/contact"
+                onClick={() => setMobileMenuOpen(false)}
+                className="block px-3 py-2.5 mt-2 rounded-lg text-sm font-semibold text-center bg-primary-600 hover:bg-primary-700 text-white transition-colors"
+              >
+                Contact
+              </Link>
             </div>
           </motion.div>
         )}
