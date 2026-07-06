@@ -22,9 +22,9 @@ const categories = [
   'All',
   'Tax Advisory',
   'Financial Reporting',
+  'Corporate Services',
   'Corporate Finance',
   'Audit & Assurance',
-  'Forensic Accounting',
   'Cloud Accounting',
 ];
 
@@ -94,6 +94,7 @@ export function ServicesPage() {
   const [services, setServices] = useState<Service[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
+  const [debouncedSearch, setDebouncedSearch] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [sortBy, setSortBy] = useState<'price_asc' | 'price_desc' | 'name'>('name');
 
@@ -105,15 +106,20 @@ export function ServicesPage() {
   }, [searchParams]);
 
   useEffect(() => {
+    const timeout = setTimeout(() => setDebouncedSearch(search), 300);
+    return () => clearTimeout(timeout);
+  }, [search]);
+
+  useEffect(() => {
     fetchServices();
-  }, [selectedCategory, search, sortBy]);
+  }, [selectedCategory, debouncedSearch, sortBy]);
 
   const fetchServices = async () => {
     setLoading(true);
     try {
       const params = new URLSearchParams();
       if (selectedCategory !== 'All') params.set('category', selectedCategory);
-      if (search) params.set('search', search);
+      if (debouncedSearch) params.set('search', debouncedSearch);
       params.set('sort', sortBy);
 
       const { data } = await api.get<{ data: Service[] }>(`/services?${params.toString()}`);

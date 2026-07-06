@@ -11,8 +11,6 @@ import { ServiceDetailPage } from './pages/ServiceDetailPage';
 import { ConsultantsPage } from './pages/ConsultantsPage';
 import { ConsultantDetailPage } from './pages/ConsultantDetailPage';
 import { ContactPage } from './pages/ContactPage';
-import { LoginPage } from './pages/LoginPage';
-import { RegisterPage } from './pages/RegisterPage';
 import { BookPage } from './pages/BookPage';
 import { WhyBbkPage } from './pages/WhyBbkPage';
 import { IndustriesPage } from './pages/IndustriesPage';
@@ -38,7 +36,7 @@ function ProtectedRoute({ children }: { children: React.ReactNode }) {
   }
 
   if (!user) {
-    return <Navigate to="/login" replace />;
+    return <Navigate to="/" replace />;
   }
 
   return <>{children}</>;
@@ -78,10 +76,6 @@ function AppRoutes() {
         {/* Catch all */}
         <Route path="*" element={<Navigate to="/" replace />} />
       </Route>
-
-      {/* Auth Routes (without layout) */}
-      <Route path="/login" element={<LoginPage />} />
-      <Route path="/register" element={<RegisterPage />} />
     </Routes>
   );
 }

@@ -90,10 +90,8 @@ export function HomePage() {
     <div className="overflow-hidden">
       {/* Hero Section */}
       <section className="relative min-h-[90vh] flex items-center">
-        <div className="absolute inset-0 bg-gradient-to-br from-primary-900/95 via-primary-800/90 to-navy-900/95" />
-        <div className="absolute inset-0 dot-pattern opacity-10" />
         <div
-          className="absolute inset-0 opacity-20"
+          className="absolute inset-0 opacity-15"
           style={{
             backgroundImage:
               'url("https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=1920")',
@@ -101,6 +99,8 @@ export function HomePage() {
             backgroundPosition: 'center',
           }}
         />
+        <div className="absolute inset-0 bg-gradient-to-br from-primary-900/95 via-primary-800/92 to-navy-900/97" />
+        <div className="absolute inset-0 dot-pattern opacity-10" />
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-32">
           <motion.div
@@ -121,18 +121,26 @@ export function HomePage() {
               className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight"
             >
               Expert Accounting Consultancy
-              <span className="block text-transparent bg-clip-text bg-gradient-to-r from-primary-300 to-gold-400">
+              <span className="block text-gold-400">
                 Services for Businesses Across the UAE
               </span>
             </motion.h1>
 
             <motion.p
               variants={fadeInUp}
-              className="text-lg md:text-xl text-slate-300 mb-8 max-w-2xl"
+              className="text-lg md:text-xl text-slate-300 mb-4 max-w-2xl"
             >
               BBK Consultancy delivers world-class accounting advisory, UAE Corporate Tax and VAT
               planning, audit support, and free zone &amp; mainland company formation — trusted by
               businesses across the UAE seeking clarity, confidence, and measurable growth.
+            </motion.p>
+
+            <motion.p
+              variants={fadeInUp}
+              className="text-sm text-slate-400 mb-8 max-w-2xl italic"
+            >
+              The activity must align with the trade license categories: Tax Consultancy,
+              Accounting &amp; Bookkeeping, and Corporate Services providers.
             </motion.p>
 
             <motion.div variants={fadeInUp} className="flex flex-col sm:flex-row gap-4">
@@ -519,12 +527,9 @@ export function HomePage() {
               discover how BBK Consultancy can help you achieve your goals.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link to="/register" className="btn-lg btn-gold">
-                Get Started Free
+              <Link to="/contact" className="btn-lg btn-gold">
+                Get a Free Consultation
                 <ArrowRight className="w-5 h-5" />
-              </Link>
-              <Link to="/contact" className="btn-lg btn-secondary bg-white/10 hover:bg-white/20 text-white border-white/20">
-                Contact Us
               </Link>
             </div>
           </motion.div>

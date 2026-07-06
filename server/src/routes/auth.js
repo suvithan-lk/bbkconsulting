@@ -94,7 +94,7 @@ authRouter.patch('/me', requireAuth, async (req, res) => {
   const values = [];
 
   for (const key of allowed) {
-    if (req.body[key] !== undefined) {
+    if (req.body[key] !== undefined && req.body[key] !== null) {
       updates.push(`${key} = ?`);
       values.push(req.body[key]);
     }

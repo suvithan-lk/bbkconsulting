@@ -42,6 +42,7 @@ export function ConsultantsPage() {
   const [consultants, setConsultants] = useState<ConsultantWithUser[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
+  const [debouncedSearch, setDebouncedSearch] = useState('');
   const [selectedSpec, setSelectedSpec] = useState('All');
   const [sortBy, setSortBy] = useState<'rating' | 'experience' | 'price'>('rating');
 
@@ -53,15 +54,20 @@ export function ConsultantsPage() {
   }, [searchParams]);
 
   useEffect(() => {
+    const timeout = setTimeout(() => setDebouncedSearch(search), 300);
+    return () => clearTimeout(timeout);
+  }, [search]);
+
+  useEffect(() => {
     fetchConsultants();
-  }, [selectedSpec, search, sortBy]);
+  }, [selectedSpec, debouncedSearch, sortBy]);
 
   const fetchConsultants = async () => {
     setLoading(true);
     try {
       const params = new URLSearchParams();
       if (selectedSpec !== 'All') params.set('spec', selectedSpec);
-      if (search) params.set('search', search);
+      if (debouncedSearch) params.set('search', debouncedSearch);
       params.set('sort', sortBy);
 
       const { data } = await api.get<{ data: ConsultantWithUser[] }>(`/consultants?${params.toString()}`);
@@ -215,7 +221,7 @@ export function ConsultantsPage() {
 
                       <div className="flex items-center justify-between pt-4 border-t border-slate-100 dark:border-slate-800">
                         <div className="text-slate-500">
-                          <span className="text-xl font-bold text-primary-600">${consultant.hourly_rate}</span>
+                          <span className="text-xl font-bold text-primary-600">AED {consultant.hourly_rate.toLocaleString()}</span>
                           <span className="text-sm">/hr</span>
                         </div>
                         <Link

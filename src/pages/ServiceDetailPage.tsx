@@ -65,7 +65,7 @@ export function ServiceDetailPage() {
 
   const handleBookNow = () => {
     if (!user) {
-      navigate('/login?redirect=/services/' + id);
+      navigate('/contact');
       return;
     }
     navigate(`/book?service=${id}`);

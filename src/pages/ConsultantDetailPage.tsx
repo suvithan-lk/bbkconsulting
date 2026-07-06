@@ -9,7 +9,7 @@ import {
   MapPin,
   Briefcase,
   MessageSquare,
-  DollarSign,
+  Wallet,
   CheckCircle2,
   Mail,
 } from 'lucide-react';
@@ -66,7 +66,7 @@ export function ConsultantDetailPage() {
 
   const handleBookNow = () => {
     if (!user) {
-      navigate('/login?redirect=/consultants/' + id);
+      navigate('/contact');
       return;
     }
     navigate(`/book?consultant=${id}`);
@@ -184,8 +184,8 @@ export function ConsultantDetailPage() {
                   <span>{consultant.experience_years}+ years experience</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <DollarSign className="w-5 h-5" />
-                  <span>AED {consultant.hourly_rate}/hr</span>
+                  <Wallet className="w-5 h-5" />
+                  <span>AED {consultant.hourly_rate.toLocaleString()}/hr</span>
                 </div>
               </div>
             </div>

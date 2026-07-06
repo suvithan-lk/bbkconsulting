@@ -212,16 +212,7 @@ export function Navbar() {
                   </AnimatePresence>
                 </div>
               </>
-            ) : (
-              <div className="hidden sm:flex items-center gap-3">
-                <Link to="/login" className="btn-ghost">
-                  Sign in
-                </Link>
-                <Link to="/register" className="btn-primary">
-                  Get Started
-                </Link>
-              </div>
-            )}
+            ) : null}
 
             {/* Mobile menu button */}
             <button
@@ -258,17 +249,6 @@ export function Navbar() {
                   {item.name}
                 </Link>
               ))}
-
-              {!user && (
-                <div className="pt-4 space-y-2 border-t border-slate-200 dark:border-slate-700">
-                  <Link to="/login" className="btn-secondary w-full">
-                    Sign in
-                  </Link>
-                  <Link to="/register" className="btn-primary w-full">
-                    Get Started
-                  </Link>
-                </div>
-              )}
             </div>
           </motion.div>
         )}

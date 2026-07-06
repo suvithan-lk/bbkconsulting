@@ -123,12 +123,28 @@ appointmentsRouter.post('/', async (req, res) => {
 });
 
 appointmentsRouter.patch('/:id', async (req, res) => {
+  const [existingRows] = await pool.query(
+    'SELECT client_id, consultant_id FROM appointments WHERE id = ?',
+    [req.params.id]
+  );
+  const appointment = existingRows[0];
+  if (!appointment) {
+    return res.status(404).json({ error: 'Appointment not found' });
+  }
+
+  const [consultantRows] = await pool.query('SELECT id FROM consultants WHERE user_id = ?', [req.userId]);
+  const consultantId = consultantRows[0]?.id;
+  const isOwner = appointment.client_id === req.userId || appointment.consultant_id === consultantId;
+  if (!isOwner) {
+    return res.status(403).json({ error: 'You do not have access to this appointment' });
+  }
+
   const allowed = ['status', 'notes', 'meeting_link', 'scheduled_date', 'scheduled_time'];
   const updates = [];
   const values = [];
 
   for (const key of allowed) {
-    if (req.body[key] !== undefined) {
+    if (req.body[key] !== undefined && req.body[key] !== null) {
       updates.push(`${key} = ?`);
       values.push(req.body[key]);
     }

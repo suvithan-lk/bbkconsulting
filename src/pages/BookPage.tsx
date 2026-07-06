@@ -127,12 +127,12 @@ export function BookPage() {
         <div className="container-custom">
           <div className="text-center max-w-md mx-auto">
             <User className="w-16 h-16 text-slate-300 mx-auto mb-4" />
-            <h2 className="text-2xl font-bold mb-4">Sign In Required</h2>
+            <h2 className="text-2xl font-bold mb-4">Book a Consultation</h2>
             <p className="text-slate-500 mb-6">
-              Please sign in to book a consultation with our experts.
+              Contact our team to schedule a consultation with one of our experts.
             </p>
-            <Link to={`/login?redirect=${window.location.pathname}`} className="btn-primary">
-              Sign In to Continue
+            <Link to="/contact" className="btn-primary">
+              Contact Us
             </Link>
           </div>
         </div>

@@ -37,6 +37,21 @@ const SELECT_WITH_SENDER = `
   JOIN users u ON u.id = m.sender_id
 `;
 
+async function isAppointmentParticipant(userId, appointmentId) {
+  const [appointmentRows] = await pool.query(
+    'SELECT client_id, consultant_id FROM appointments WHERE id = ?',
+    [appointmentId]
+  );
+  const appointment = appointmentRows[0];
+  if (!appointment) return false;
+
+  if (appointment.client_id === userId) return true;
+
+  const [consultantRows] = await pool.query('SELECT id FROM consultants WHERE user_id = ?', [userId]);
+  const consultantId = consultantRows[0]?.id;
+  return !!consultantId && appointment.consultant_id === consultantId;
+}
+
 messagesRouter.get('/conversations', async (req, res) => {
   const [consultantRows] = await pool.query('SELECT id FROM consultants WHERE user_id = ?', [req.userId]);
   const consultantId = consultantRows[0]?.id;
@@ -129,6 +144,11 @@ messagesRouter.get('/conversations', async (req, res) => {
 });
 
 messagesRouter.get('/:appointmentId', async (req, res) => {
+  const authorized = await isAppointmentParticipant(req.userId, req.params.appointmentId);
+  if (!authorized) {
+    return res.status(403).json({ error: 'You do not have access to this conversation' });
+  }
+
   const [rows] = await pool.query(
     `${SELECT_WITH_SENDER} WHERE m.appointment_id = ? ORDER BY m.created_at ASC`,
     [req.params.appointmentId]
@@ -146,6 +166,11 @@ messagesRouter.post('/', async (req, res) => {
   const { appointment_id, receiver_id, content } = req.body;
   if (!appointment_id || !receiver_id || !content) {
     return res.status(400).json({ error: 'appointment_id, receiver_id and content are required' });
+  }
+
+  const authorized = await isAppointmentParticipant(req.userId, appointment_id);
+  if (!authorized) {
+    return res.status(403).json({ error: 'You do not have access to this conversation' });
   }
 
   const id = uuid();

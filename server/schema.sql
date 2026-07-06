@@ -118,10 +118,12 @@ CREATE INDEX idx_reviews_consultant ON reviews(consultant_id);
 CREATE INDEX idx_consultants_specialization ON consultants(specialization);
 
 -- Seed sample services so the app isn't empty on first run
+-- Titles/categories mirror BBK Consultancy's actual service lines (see src/pages/ServicesPage.tsx)
+-- so the bookable catalog matches the marketing copy shown on the site.
 INSERT INTO services (id, title, description, category, price, duration_minutes) VALUES
-(UUID(), 'Business Strategy Session', 'A deep-dive session to define your growth strategy and roadmap.', 'Business Strategy', 250.00, 60),
-(UUID(), 'Financial Health Checkup', 'Comprehensive review of your finances with actionable recommendations.', 'Financial Advisory', 200.00, 45),
-(UUID(), 'IT Infrastructure Audit', 'Assessment of your current IT setup with modernization recommendations.', 'IT Consulting', 300.00, 90),
-(UUID(), 'Contract Review', 'Expert legal review of business contracts and agreements.', 'Legal Consultation', 180.00, 45),
-(UUID(), 'Marketing Strategy Workshop', 'Build a data-driven marketing plan tailored to your audience.', 'Marketing', 220.00, 60),
-(UUID(), 'HR Policy Consultation', 'Guidance on HR policies, compliance, and team structure.', 'HR Consulting', 190.00, 60);
+(UUID(), 'Corporate Tax & VAT Consultation', 'Strategic UAE Corporate Tax and VAT planning, compliance filings, and multi-jurisdiction tax optimisation.', 'Tax Advisory', 950.00, 60),
+(UUID(), 'IFRS Financial Statement Review', 'Full-cycle financial statement preparation and IFRS/GAAP compliance review.', 'Financial Reporting', 1200.00, 90),
+(UUID(), 'Free Zone Company Formation', 'End-to-end free zone or mainland company formation, trade licensing, and residency visa preparation.', 'Corporate Services', 2500.00, 60),
+(UUID(), 'M&A Due Diligence Session', 'Independent business valuation, financial due diligence, and deal structuring advisory.', 'Corporate Finance', 1800.00, 90),
+(UUID(), 'Statutory Audit Kickoff', 'Scoping session for statutory audit and assurance engagements.', 'Audit & Assurance', 1400.00, 60),
+(UUID(), 'Cloud Accounting Migration Assessment', 'Assessment for migrating to Xero, QuickBooks, or SAP with process automation recommendations.', 'Cloud Accounting', 850.00, 60);
