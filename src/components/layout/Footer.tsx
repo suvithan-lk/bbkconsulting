@@ -1,6 +1,5 @@
 import { Link } from 'react-router-dom';
 import {
-  Building2,
   Mail,
   Phone,
   MapPin,
@@ -14,21 +13,20 @@ import {
 const footerLinks = {
   company: [
     { name: 'About Us', href: '/about' },
-    { name: 'Our Team', href: '/about#team' },
-    { name: 'Careers', href: '/careers' },
-    { name: 'Press', href: '/press' },
+    { name: 'Why BBK', href: '/why-bbk' },
+    { name: 'Our Process', href: '/our-process' },
+    { name: 'Global Landscape', href: '/global-accounting-landscape' },
   ],
   services: [
-    { name: 'Business Strategy', href: '/services?category=business-strategy' },
-    { name: 'Financial Advisory', href: '/services?category=financial' },
-    { name: 'IT Consulting', href: '/services?category=it' },
-    { name: 'Legal Consultation', href: '/services?category=legal' },
+    { name: 'Tax Advisory & Compliance', href: '/services' },
+    { name: 'Financial Reporting (IFRS/GAAP)', href: '/services' },
+    { name: 'Corporate Finance Advisory', href: '/services' },
+    { name: 'Industries We Serve', href: '/industries' },
   ],
   resources: [
-    { name: 'Blog', href: '/blog' },
     { name: 'Case Studies', href: '/case-studies' },
     { name: 'FAQs', href: '/faq' },
-    { name: 'Support', href: '/support' },
+    { name: 'Contact', href: '/contact' },
   ],
   legal: [
     { name: 'Privacy Policy', href: '/privacy' },
@@ -77,29 +75,25 @@ export function Footer() {
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8 lg:gap-12">
           {/* Brand column */}
           <div className="col-span-2 lg:col-span-2">
-            <Link to="/" className="flex items-center gap-2 mb-4">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary-600 to-primary-700 flex items-center justify-center">
-                <Building2 className="w-5 h-5 text-white" />
-              </div>
-              <span className="text-xl font-bold">
-                Apex<span className="text-primary-400">Consult</span>
-              </span>
+            <Link to="/" className="flex items-center mb-4 bg-white rounded-xl px-3 py-2 w-fit">
+              <img src="/BBK_Logo.png" alt="BBK Consultancy" className="h-14 w-auto object-contain" />
             </Link>
             <p className="text-slate-400 mb-6 max-w-xs">
-              Transforming businesses through expert guidance and strategic consulting.
+              Expert accounting advisory, tax planning, audit support, and financial compliance
+              services — trusted by growing businesses worldwide.
             </p>
             <div className="space-y-3">
               <div className="flex items-center gap-3 text-slate-400">
                 <Mail className="w-5 h-5 text-primary-500" />
-                <span>contact@apexconsult.com</span>
+                <span>contact@bbkca.ae</span>
               </div>
               <div className="flex items-center gap-3 text-slate-400">
                 <Phone className="w-5 h-5 text-primary-500" />
-                <span>+1 (555) 123-4567</span>
+                <span>+971 4 123 4567</span>
               </div>
               <div className="flex items-start gap-3 text-slate-400">
                 <MapPin className="w-5 h-5 text-primary-500 mt-0.5" />
-                <span>123 Business Avenue, Suite 500<br />New York, NY 10001</span>
+                <span>Office 1204, Business Bay<br />Dubai, United Arab Emirates</span>
               </div>
             </div>
           </div>
@@ -176,7 +170,7 @@ export function Footer() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <p className="text-slate-500 text-sm">
-              {new Date().getFullYear()} ApexConsult. All rights reserved.
+              {new Date().getFullYear()} BBK Consultancy. All rights reserved.
             </p>
             <div className="flex items-center gap-4">
               {socialLinks.map((social) => (

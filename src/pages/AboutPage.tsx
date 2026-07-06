@@ -9,71 +9,43 @@ import {
   BookOpen,
   Briefcase,
   TrendingUp,
-  Shield,
+  CheckCircle2,
 } from 'lucide-react';
 
 const values = [
   {
     icon: Target,
-    title: 'Excellence',
-    description: 'We strive for exceptional quality in every engagement and deliverable.',
+    title: 'Integrity',
+    description: 'Integrity in every engagement — honest, transparent relationships built on trust.',
   },
   {
     icon: Heart,
-    title: 'Integrity',
-    description: 'Honest, transparent relationships built on trust and ethical practices.',
+    title: 'Excellence',
+    description: 'Excellence in every deliverable, with technical rigour behind every engagement.',
   },
   {
     icon: Users,
     title: 'Collaboration',
-    description: 'Working alongside clients as true partners in their success journey.',
+    description: 'Working alongside clients as true partners in their financial success journey.',
   },
   {
     icon: TrendingUp,
     title: 'Innovation',
-    description: 'Embracing new ideas and technologies to drive meaningful change.',
+    description: 'Innovation in every solution we design, staying ahead of evolving standards.',
   },
 ];
 
-const milestones = [
-  { year: '2010', title: 'Founded', description: 'ApexConsult was established with a vision to transform consulting.' },
-  { year: '2014', title: 'Global Expansion', description: 'Opened offices in London, Singapore, and Tokyo.' },
-  { year: '2018', title: 'Digital Innovation', description: 'Launched our digital transformation practice.' },
-  { year: '2021', title: '500+ Clients', description: 'Milestone reached serving over 500 businesses worldwide.' },
-  { year: '2024', title: 'AI Integration', description: 'Integrated AI-powered analytics into our consulting framework.' },
-];
-
-const leadership = [
-  {
-    name: 'Sarah Mitchell',
-    role: 'CEO & Founder',
-    bio: 'Former McKinsey partner with 20+ years in strategic consulting.',
-    image: 'https://images.pexels.com/photos/7749090/pexels-photo-7749090.jpeg?auto=compress&cs=tinysrgb&w=400',
-  },
-  {
-    name: 'Michael Chen',
-    role: 'Chief Strategy Officer',
-    bio: 'Expert in digital transformation and organizational change.',
-    image: 'https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=400',
-  },
-  {
-    name: 'Emily Rodriguez',
-    role: 'Head of Financial Advisory',
-    bio: 'Former Goldman Sachs VP specializing in corporate finance.',
-    image: 'https://images.pexels.com/photos/3766182/pexels-photo-3766182.jpeg?auto=compress&cs=tinysrgb&w=400',
-  },
-  {
-    name: 'James Okoro',
-    role: 'Head of Technology Consulting',
-    bio: 'Pioneer in enterprise architecture and cloud solutions.',
-    image: 'https://images.pexels.com/photos/2182970/pexels-photo-2182970.jpeg?auto=compress&cs=tinysrgb&w=400',
-  },
+const credentials = [
+  'ACCA Certified Professionals',
+  'CPA Qualified Advisors',
+  'VAT Registered Advisors',
+  'OECD Tax Compliant Practitioners',
 ];
 
 const stats = [
-  { icon: Users, value: '50+', label: 'Expert Consultants' },
+  { icon: Users, value: '50+', label: 'Qualified Accounting Professionals' },
   { icon: Globe, value: '15+', label: 'Countries Served' },
-  { icon: Briefcase, value: '1,200+', label: 'Projects Delivered' },
+  { icon: Briefcase, value: '1,200+', label: 'Engagements Delivered' },
   { icon: Award, value: '98%', label: 'Client Satisfaction' },
 ];
 
@@ -105,14 +77,16 @@ export function AboutPage() {
             className="max-w-3xl"
           >
             <motion.span variants={fadeInUp} className="badge bg-white/10 text-white border-white/20 mb-6">
-              About Us
+              About BBK Consultancy
             </motion.span>
             <motion.h1 variants={fadeInUp} className="text-4xl md:text-5xl font-bold text-white mb-6">
-              Empowering Businesses to Reach Their Full Potential
+              Built on Trust, Precision and Two Decades of Financial Excellence
             </motion.h1>
             <motion.p variants={fadeInUp} className="text-lg text-slate-300">
-              For over a decade, ApexConsult has been the trusted partner for businesses seeking
-              strategic guidance, operational excellence, and transformational growth.
+              BBK Consultancy was founded on a simple but powerful belief: that every business in
+              the UAE — regardless of size — deserves access to the calibre of accounting
+              expertise traditionally reserved for large corporations. Based in Dubai, we serve
+              clients across UAE free zones and the mainland.
             </motion.p>
           </motion.div>
         </div>
@@ -157,10 +131,10 @@ export function AboutPage() {
                 </div>
                 <h2 className="text-2xl font-bold mb-4">Our Mission</h2>
                 <p className="text-slate-500 leading-relaxed">
-                  To empower organizations with actionable insights and strategic guidance that
-                  drive sustainable growth, operational efficiency, and competitive advantage.
-                  We believe every business has untapped potential waiting to be unlocked through
-                  expert consultation and collaborative partnership.
+                  At BBK Consultancy, our mission is to deliver precise, transparent, and impactful
+                  accounting solutions that empower businesses to make confident financial decisions.
+                  We believe that robust financial management is not a luxury — it is the bedrock of
+                  sustainable growth.
                 </p>
               </div>
 
@@ -168,12 +142,12 @@ export function AboutPage() {
                 <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-primary-100 to-primary-50 dark:from-primary-900/30 dark:to-primary-800/20 flex items-center justify-center mb-4">
                   <Eye className="w-7 h-7 text-primary-600" />
                 </div>
-                <h2 className="text-2xl font-bold mb-4">Our Vision</h2>
+                <h2 className="text-2xl font-bold mb-4">Qualified, Certified &amp; Internationally Recognised</h2>
                 <p className="text-slate-500 leading-relaxed">
-                  To be the world's most trusted consultancy partner, recognized for transforming
-                  businesses across industries and creating lasting positive impact. We envision a
-                  future where every organization, regardless of size, has access to world-class
-                  strategic expertise.
+                  Our team of over 50 qualified accounting professionals brings together decades of
+                  experience from Big Four firms, public sector organisations, and multinational
+                  corporations — ensuring BBK clients benefit from institutional-grade expertise
+                  delivered with boutique-level attention.
                 </p>
               </div>
             </motion.div>
@@ -219,7 +193,8 @@ export function AboutPage() {
               What Drives Us Forward
             </motion.h2>
             <motion.p variants={fadeInUp} className="text-slate-500 max-w-2xl mx-auto">
-              Our core values form the foundation of everything we do and how we serve our clients.
+              These values have shaped our reputation as one of the most reliable accounting
+              advisory practices in the region.
             </motion.p>
           </motion.div>
 
@@ -247,8 +222,8 @@ export function AboutPage() {
         </div>
       </section>
 
-      {/* Timeline */}
-      <section className="section">
+      {/* Credentials */}
+      <section id="team" className="section">
         <div className="container-custom">
           <motion.div
             initial="initial"
@@ -258,55 +233,14 @@ export function AboutPage() {
             className="text-center mb-16"
           >
             <motion.span variants={fadeInUp} className="badge-primary mb-4">
-              Our Journey
+              Credentials
             </motion.span>
             <motion.h2 variants={fadeInUp} className="mb-4">
-              Milestones That Define Us
-            </motion.h2>
-          </motion.div>
-
-          <div className="max-w-3xl mx-auto">
-            {milestones.map((milestone, index) => (
-              <motion.div
-                key={milestone.year}
-                initial={{ opacity: 0, x: index % 2 === 0 ? -20 : 20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
-                className="relative pl-8 pb-12 last:pb-0"
-              >
-                <div className="absolute left-0 top-0 bottom-0 w-px bg-slate-200 dark:bg-slate-700" />
-                <div className="absolute left-0 top-2 w-3 h-3 -translate-x-1/2 rounded-full bg-primary-600 ring-4 ring-primary-100 dark:ring-primary-900/30" />
-
-                <div className="bg-white dark:bg-slate-900 rounded-xl p-6 shadow-soft border border-slate-100 dark:border-slate-800 ml-4">
-                  <span className="text-primary-600 font-semibold">{milestone.year}</span>
-                  <h3 className="text-lg font-semibold mt-1">{milestone.title}</h3>
-                  <p className="text-slate-500 text-sm mt-2">{milestone.description}</p>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Leadership Team */}
-      <section id="team" className="section bg-slate-50 dark:bg-slate-900/50">
-        <div className="container-custom">
-          <motion.div
-            initial="initial"
-            whileInView="animate"
-            viewport={{ once: true }}
-            variants={staggerContainer}
-            className="text-center mb-16"
-          >
-            <motion.span variants={fadeInUp} className="badge-primary mb-4">
-              Leadership
-            </motion.span>
-            <motion.h2 variants={fadeInUp} className="mb-4">
-              Meet Our Leadership Team
+              Qualified, Certified, and Internationally Recognised
             </motion.h2>
             <motion.p variants={fadeInUp} className="text-slate-500 max-w-2xl mx-auto">
-              Experienced professionals dedicated to delivering exceptional results for our clients.
+              Our certified accountants and financial advisors hold qualifications from
+              internationally recognised bodies including ACCA, CPA, and ICAI.
             </motion.p>
           </motion.div>
 
@@ -315,26 +249,16 @@ export function AboutPage() {
             whileInView="animate"
             viewport={{ once: true }}
             variants={staggerContainer}
-            className="grid md:grid-cols-2 lg:grid-cols-4 gap-8"
+            className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-4xl mx-auto"
           >
-            {leadership.map((leader) => (
+            {credentials.map((credential) => (
               <motion.div
-                key={leader.name}
+                key={credential}
                 variants={fadeInUp}
-                className="card-hover overflow-hidden group"
+                className="card-hover p-6 flex items-center gap-3"
               >
-                <div className="aspect-[3/4] overflow-hidden">
-                  <img
-                    src={leader.image}
-                    alt={leader.name}
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                  />
-                </div>
-                <div className="p-6">
-                  <h3 className="font-semibold text-lg">{leader.name}</h3>
-                  <p className="text-primary-600 text-sm mb-3">{leader.role}</p>
-                  <p className="text-slate-500 text-sm">{leader.bio}</p>
-                </div>
+                <CheckCircle2 className="w-6 h-6 text-primary-600 flex-shrink-0" />
+                <span className="font-medium text-slate-900 dark:text-white text-sm">{credential}</span>
               </motion.div>
             ))}
           </motion.div>
@@ -356,7 +280,8 @@ export function AboutPage() {
               Ready to Work With Us?
             </h2>
             <p className="text-slate-300 text-lg mb-8">
-              Join hundreds of businesses that have transformed their operations with our expert guidance.
+              Join over 500 businesses that trust BBK Consultancy for their accounting advisory,
+              audit, tax, and financial management needs.
             </p>
             <a href="/contact" className="btn-lg btn-gold">
               Schedule a Consultation

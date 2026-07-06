@@ -4,27 +4,24 @@ import { motion, AnimatePresence } from 'framer-motion';
 import {
   Menu,
   X,
-  Sun,
-  Moon,
   Bell,
-  User,
   LogOut,
   Settings,
   ChevronDown,
-  Building2,
   Calendar,
   MessageSquare,
   FileText,
   LayoutDashboard,
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
-import { useTheme } from '../../context/ThemeContext';
 import { useNotifications } from '../../context/NotificationContext';
 
 const navigation = [
   { name: 'Home', href: '/' },
   { name: 'About', href: '/about' },
   { name: 'Services', href: '/services' },
+  { name: 'Why BBK', href: '/why-bbk' },
+  { name: 'Industries', href: '/industries' },
   { name: 'Consultants', href: '/consultants' },
   { name: 'Contact', href: '/contact' },
 ];
@@ -33,8 +30,7 @@ export function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
   const [notificationsOpen, setNotificationsOpen] = useState(false);
-  const { user, profile, signOut, isConsultant, isAdmin, isClient } = useAuth();
-  const { theme, toggleTheme } = useTheme();
+  const { user, profile, signOut, isConsultant, isAdmin } = useAuth();
   const { notifications, unreadCount, markAsRead, markAllAsRead } = useNotifications();
   const location = useLocation();
 
@@ -68,13 +64,8 @@ export function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 lg:h-20">
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-2">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary-600 to-primary-800 flex items-center justify-center">
-              <Building2 className="w-5 h-5 text-white" />
-            </div>
-            <span className="text-xl font-bold text-slate-900 dark:text-white">
-              Apex<span className="text-primary-600">Consult</span>
-            </span>
+          <Link to="/" className="flex items-center">
+            <img src="/BBK_Logo.png" alt="BBK Consultancy" className="h-14 lg:h-16 w-auto object-contain" />
           </Link>
 
           {/* Desktop Navigation */}
@@ -96,15 +87,6 @@ export function Navbar() {
 
           {/* Right section */}
           <div className="flex items-center gap-4">
-            {/* Theme toggle */}
-            <button
-              onClick={toggleTheme}
-              className="p-2 rounded-lg text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800 transition-colors"
-              aria-label="Toggle theme"
-            >
-              {theme === 'dark' ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
-            </button>
-
             {user ? (
               <>
                 {/* Notifications */}

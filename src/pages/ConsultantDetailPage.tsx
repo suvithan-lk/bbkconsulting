@@ -8,15 +8,12 @@ import {
   Calendar,
   MapPin,
   Briefcase,
-  Award,
   MessageSquare,
   DollarSign,
   CheckCircle2,
-  ExternalLink,
-  ArrowRight,
   Mail,
 } from 'lucide-react';
-import { supabase } from '../lib/supabase';
+import { api } from '../lib/api';
 import { useAuth } from '../context/AuthContext';
 import type { ConsultantWithUser, Service, Review } from '../types/database.types';
 
@@ -46,39 +43,19 @@ export function ConsultantDetailPage() {
 
   const fetchConsultant = async () => {
     try {
-      const { data: consultantData, error } = await supabase
-        .from('consultants')
-        .select('*, user:users(*)')
-        .eq('id', id)
-        .maybeSingle();
-
-      if (error) throw error;
+      const { data: consultantData } = await api.get<{ data: ConsultantWithUser | null }>(`/consultants/${id}`);
 
       if (consultantData) {
-        setConsultant(consultantData as ConsultantWithUser);
+        setConsultant(consultantData);
 
-        // Fetch related services
-        const { data: servicesData } = await supabase
-          .from('services')
-          .select('*')
-          .eq('category', consultantData.specialization)
-          .eq('active', true)
-          .limit(4);
+        const params = new URLSearchParams({ category: consultantData.specialization });
+        const { data: servicesData } = await api.get<{ data: Service[] }>(`/services?${params.toString()}`);
+        setServices(servicesData.slice(0, 4));
 
-        if (servicesData) setServices(servicesData);
-
-        // Fetch reviews
-        const { data: reviewsData } = await supabase
-          .from('reviews')
-          .select('*, client:users!client_id(name, avatar_url)')
-          .eq('consultant_id', id)
-          .order('created_at', { ascending: false })
-          .limit(5);
-
-        if (reviewsData) {
-          // Type assertion for the nested client data
-          setReviews(reviewsData as typeof reviews);
-        }
+        const { data: reviewsData } = await api.get<{ data: typeof reviews }>(
+          `/reviews?consultant_id=${id}`
+        );
+        setReviews(reviewsData);
       }
     } catch (err) {
       console.error('Error fetching consultant:', err);
@@ -208,7 +185,7 @@ export function ConsultantDetailPage() {
                 </div>
                 <div className="flex items-center gap-2">
                   <DollarSign className="w-5 h-5" />
-                  <span>${consultant.hourly_rate}/hr</span>
+                  <span>AED {consultant.hourly_rate}/hr</span>
                 </div>
               </div>
             </div>
@@ -345,7 +322,7 @@ export function ConsultantDetailPage() {
                           {service.title}
                         </h3>
                         <p className="text-sm text-slate-500 mt-1">
-                          ${service.price.toLocaleString()}
+                          AED {service.price.toLocaleString()}
                         </p>
                       </Link>
                     ))}

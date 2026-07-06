@@ -1,31 +1,43 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Mail, Phone, MapPin, Send, Clock, MessageCircle, Loader2, CheckCircle2 } from 'lucide-react';
+import {
+  Mail,
+  Phone,
+  MapPin,
+  Send,
+  Video,
+  MessageCircle,
+  Loader2,
+  CheckCircle2,
+  ArrowRight,
+  Users,
+} from 'lucide-react';
 
 const contactInfo = [
   {
     icon: Phone,
     title: 'Phone',
-    value: '+1 (555) 123-4567',
-    description: 'Mon-Fri from 9am to 6pm',
+    value: '+971 4 123 4567',
+    description: 'Available Mon-Fri, 8:00am to 6:00pm (UAE time)',
   },
   {
     icon: Mail,
     title: 'Email',
-    value: 'contact@apexconsult.com',
-    description: 'We reply within 24 hours',
+    value: 'contact@bbkca.ae',
+    description: 'Receive a response within 4 business hours',
   },
   {
     icon: MapPin,
-    title: 'Office',
-    value: '123 Business Avenue, Suite 500',
-    description: 'New York, NY 10001',
+    title: 'Visit Our Office',
+    value: 'Office 1204, Business Bay',
+    description: 'Dubai, UAE — private meeting rooms available',
   },
   {
-    icon: Clock,
-    title: 'Working Hours',
-    value: 'Monday - Friday',
-    description: '9:00 AM - 6:00 PM EST',
+    icon: Video,
+    title: 'Book a Free Consultation',
+    value: '30-Minute Session',
+    description: 'Video or in-person — no commitment required',
   },
 ];
 
@@ -84,11 +96,12 @@ export function ContactPage() {
               Contact Us
             </motion.span>
             <motion.h1 variants={fadeInUp} className="text-4xl md:text-5xl font-bold text-white mb-6">
-              Let's Start a Conversation
+              Start Your Journey to Financial Excellence Today
             </motion.h1>
             <motion.p variants={fadeInUp} className="text-lg text-slate-300">
-              Have a question or ready to transform your business? We're here to help.
-              Reach out and our team will get back to you within 24 hours.
+              Whether you need an urgent audit, tax advisory, or a long-term financial
+              transformation partner — BBK Consultancy is ready. Contact us for a free,
+              no-obligation consultation with a senior accounting professional.
             </motion.p>
           </motion.div>
         </div>
@@ -180,7 +193,7 @@ export function ContactPage() {
                         type="tel"
                         value={formData.phone}
                         onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                        placeholder="+1 (555) 000-0000"
+                        placeholder="+971 4 000 0000"
                         className="input"
                         disabled={loading}
                       />
@@ -196,9 +209,9 @@ export function ContactPage() {
                       >
                         <option value="">Select a subject</option>
                         <option value="general">General Inquiry</option>
-                        <option value="consulting">Consulting Services</option>
-                        <option value="partnership">Partnership Opportunity</option>
-                        <option value="support">Support Request</option>
+                        <option value="tax">Tax Advisory & Compliance</option>
+                        <option value="audit">Audit & Assurance</option>
+                        <option value="corporate">Corporate Finance</option>
                         <option value="other">Other</option>
                       </select>
                     </div>
@@ -249,7 +262,7 @@ export function ContactPage() {
               <div className="card overflow-hidden h-80 lg:h-96">
                 <iframe
                   title="Office Location"
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d193595.15830869428!2d-74.11976397304603!3d40.69766374873451!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c24fa5d33f083b%3A0xc80b8f06e177fe62!2sNew%20York%2C%20NY%2C%20USA!5e0!3m2!1sen!2suk!4v1699999999999!5m2!1sen!2suk"
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d462560.4!2d54.9!3d25.2!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e5f43496ad9c645%3A0xbde66e5084295162!2sDubai%20-%20United%20Arab%20Emirates!5e0!3m2!1sen!2sae!4v1699999999999!5m2!1sen!2sae"
                   width="100%"
                   height="100%"
                   style={{ border: 0 }}
@@ -276,6 +289,73 @@ export function ContactPage() {
                   </div>
                 </div>
               </div>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* Why Contact BBK */}
+      <section className="section bg-slate-50 dark:bg-slate-900/50">
+        <div className="container-custom">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="max-w-3xl mx-auto text-center"
+          >
+            <span className="badge-primary mb-4">Why Contact BBK Consultancy?</span>
+            <p className="text-slate-500 leading-relaxed">
+              Every enquiry is handled by a qualified professional — not a sales representative.
+              Your first consultation is free, confidential, and focused entirely on understanding
+              your financial challenges and how we can help you overcome them.
+            </p>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Local SEO Section */}
+      <section className="section">
+        <div className="container-custom">
+          <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+            >
+              <span className="badge-primary mb-4">Local &amp; Global</span>
+              <h2 className="mb-6">BBK Consultancy — Your Trusted Local Accounting Partner</h2>
+              <p className="text-slate-500 leading-relaxed mb-4">
+                BBK Consultancy serves businesses locally and internationally, combining the
+                expertise of a global accounting firm with the accessibility and understanding of a
+                local partner. Our offices are conveniently located and equipped to host client
+                meetings, workshops, and executive briefings.
+              </p>
+              <p className="text-slate-500 leading-relaxed">
+                We serve clients across industries including financial services, real estate,
+                manufacturing, technology, retail, healthcare, and the public sector. Whether you
+                are headquartered locally or managing operations across multiple countries, BBK
+                provides the financial expertise your business needs to grow with confidence.
+              </p>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              className="card p-8 md:p-10 bg-gradient-to-br from-primary-900 via-primary-800 to-navy-900 text-center"
+            >
+              <Users className="w-10 h-10 text-primary-300 mx-auto mb-4" />
+              <h3 className="text-xl font-semibold text-white mb-3">
+                Ready to Transform Your Financial Operations?
+              </h3>
+              <p className="text-slate-300 text-sm mb-6">
+                Join over 500 businesses that trust BBK Consultancy for their accounting advisory,
+                audit, tax, and financial management needs.
+              </p>
+              <Link to="/case-studies" className="btn-lg btn-gold">
+                See Client Results
+                <ArrowRight className="w-5 h-5" />
+              </Link>
             </motion.div>
           </div>
         </div>

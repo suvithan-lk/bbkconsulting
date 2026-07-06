@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState, useCallback } from 'react';
-import { supabase } from '../lib/supabase';
+import { api } from '../lib/api';
 import { useAuth } from './AuthContext';
 import type { Notification } from '../types/database.types';
 
@@ -14,6 +14,8 @@ interface NotificationContextType {
 
 const NotificationContext = createContext<NotificationContextType | undefined>(undefined);
 
+const POLL_INTERVAL_MS = 15000;
+
 export function NotificationProvider({ children }: { children: React.ReactNode }) {
   const { user } = useAuth();
   const [notifications, setNotifications] = useState<Notification[]>([]);
@@ -26,18 +28,14 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
       return;
     }
 
-    setLoading(true);
-    const { data, error } = await supabase
-      .from('notifications')
-      .select('*')
-      .eq('user_id', user.id)
-      .order('created_at', { ascending: false })
-      .limit(50);
-
-    if (!error && data) {
+    try {
+      const { data } = await api.get<{ data: Notification[] }>('/notifications');
       setNotifications(data);
+    } catch {
+      // Silently ignore transient polling failures
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   }, [user]);
 
   useEffect(() => {
@@ -47,69 +45,31 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
   useEffect(() => {
     if (!user) return;
 
-    const channel = supabase
-      .channel(`notifications:${user.id}`)
-      .on(
-        'postgres_changes',
-        {
-          event: 'INSERT',
-          schema: 'public',
-          table: 'notifications',
-          filter: `user_id=eq.${user.id}`,
-        },
-        (payload) => {
-          setNotifications(prev => [payload.new as Notification, ...prev]);
-        }
-      )
-      .on(
-        'postgres_changes',
-        {
-          event: 'UPDATE',
-          schema: 'public',
-          table: 'notifications',
-          filter: `user_id=eq.${user.id}`,
-        },
-        (payload) => {
-          setNotifications(prev =>
-            prev.map(n => (n.id === payload.new.id ? (payload.new as Notification) : n))
-          );
-        }
-      )
-      .subscribe();
-
-    return () => {
-      supabase.removeChannel(channel);
-    };
-  }, [user]);
+    const interval = setInterval(fetchNotifications, POLL_INTERVAL_MS);
+    return () => clearInterval(interval);
+  }, [user, fetchNotifications]);
 
   const markAsRead = async (id: string) => {
-    const { error } = await supabase
-      .from('notifications')
-      .update({ read: true })
-      .eq('id', id);
-
-    if (!error) {
-      setNotifications(prev =>
-        prev.map(n => (n.id === id ? { ...n, read: true } : n))
-      );
+    try {
+      await api.patch(`/notifications/${id}/read`);
+      setNotifications((prev) => prev.map((n) => (n.id === id ? { ...n, read: true } : n)));
+    } catch {
+      // ignore
     }
   };
 
   const markAllAsRead = async () => {
     if (!user) return;
 
-    const { error } = await supabase
-      .from('notifications')
-      .update({ read: true })
-      .eq('user_id', user.id)
-      .eq('read', false);
-
-    if (!error) {
-      setNotifications(prev => prev.map(n => ({ ...n, read: true })));
+    try {
+      await api.patch('/notifications/read-all');
+      setNotifications((prev) => prev.map((n) => ({ ...n, read: true })));
+    } catch {
+      // ignore
     }
   };
 
-  const unreadCount = notifications.filter(n => !n.read).length;
+  const unreadCount = notifications.filter((n) => !n.read).length;
 
   return (
     <NotificationContext.Provider

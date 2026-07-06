@@ -5,14 +5,13 @@ import {
   ArrowLeft,
   Briefcase,
   Clock,
-  DollarSign,
   Star,
   Calendar,
   User,
   CheckCircle2,
   ArrowRight,
 } from 'lucide-react';
-import { supabase } from '../lib/supabase';
+import { api } from '../lib/api';
 import { useAuth } from '../context/AuthContext';
 import type { Service, ConsultantWithUser } from '../types/database.types';
 
@@ -46,27 +45,16 @@ export function ServiceDetailPage() {
 
   const fetchService = async () => {
     try {
-      const { data: serviceData, error: serviceError } = await supabase
-        .from('services')
-        .select('*')
-        .eq('id', id)
-        .maybeSingle();
-
-      if (serviceError) throw serviceError;
+      const { data: serviceData } = await api.get<{ data: Service | null }>(`/services/${id}`);
 
       if (serviceData) {
         setService(serviceData);
 
-        const { data: consultantsData } = await supabase
-          .from('consultants')
-          .select('*, user:users(*)')
-          .eq('specialization', serviceData.category)
-          .eq('verified', true)
-          .limit(4);
-
-        if (consultantsData) {
-          setConsultants(consultantsData as ConsultantWithUser[]);
-        }
+        const params = new URLSearchParams({ spec: serviceData.category });
+        const { data: consultantsData } = await api.get<{ data: ConsultantWithUser[] }>(
+          `/consultants?${params.toString()}`
+        );
+        setConsultants(consultantsData.slice(0, 4));
       }
     } catch (err) {
       console.error('Error fetching service:', err);
@@ -248,7 +236,7 @@ export function ServiceDetailPage() {
               >
                 <div className="text-center mb-6">
                   <div className="text-4xl font-bold text-primary-600 mb-1">
-                    ${service.price.toLocaleString()}
+                    AED {service.price.toLocaleString()}
                   </div>
                   <p className="text-slate-500">Starting price</p>
                 </div>

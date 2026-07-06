@@ -4,7 +4,6 @@ import { motion } from 'framer-motion';
 import {
   Calendar,
   Clock,
-  User,
   MessageSquare,
   FileText,
   Star,
@@ -12,9 +11,8 @@ import {
   CheckCircle2,
   XCircle,
   AlertCircle,
-  Loader2,
 } from 'lucide-react';
-import { supabase } from '../../lib/supabase';
+import { api } from '../../lib/api';
 import { useAuth } from '../../context/AuthContext';
 import type { AppointmentWithDetails } from '../../types/database.types';
 
@@ -52,19 +50,9 @@ export function ClientDashboard() {
   const fetchAppointments = async () => {
     if (!user) return;
 
-    const { data, error } = await supabase
-      .from('appointments')
-      .select(`
-        *,
-        client:users!client_id(*),
-        consultant:consultants(*, user:users(*)),
-        service:services(*)
-      `)
-      .eq('client_id', user.id)
-      .order('scheduled_date', { ascending: false });
-
-    if (!error && data) {
-      setAppointments(data as AppointmentWithDetails[]);
+    try {
+      const { data } = await api.get<{ data: AppointmentWithDetails[] }>('/appointments');
+      setAppointments(data);
 
       const total = data.length;
       const completed = data.filter((a) => a.status === 'completed').length;
@@ -76,9 +64,11 @@ export function ClientDashboard() {
       const pending = data.filter((a) => a.status === 'pending').length;
 
       setStats({ total, completed, upcoming, pending });
+    } catch (err) {
+      console.error('Error fetching appointments:', err);
+    } finally {
+      setLoading(false);
     }
-
-    setLoading(false);
   };
 
   const quickActions = [

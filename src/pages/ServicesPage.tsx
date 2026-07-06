@@ -9,18 +9,70 @@ import {
   Search,
   ArrowRight,
   SortAsc,
+  ScrollText,
+  FileBarChart,
+  Landmark,
+  Building2,
+  CheckCircle2,
 } from 'lucide-react';
-import { supabase } from '../lib/supabase';
+import { api } from '../lib/api';
 import type { Service } from '../types/database.types';
 
 const categories = [
   'All',
-  'Business Strategy',
-  'Financial Advisory',
-  'IT Consulting',
-  'Legal Consultation',
-  'Marketing',
-  'HR Consulting',
+  'Tax Advisory',
+  'Financial Reporting',
+  'Corporate Finance',
+  'Audit & Assurance',
+  'Forensic Accounting',
+  'Cloud Accounting',
+];
+
+const coreServices = [
+  {
+    icon: ScrollText,
+    number: '01',
+    title: 'Tax Advisory & Compliance',
+    description:
+      "Navigating the UAE's evolving tax landscape requires strategic expertise that combines local knowledge with global awareness. BBK's tax team provides comprehensive advisory across UAE Corporate Tax, VAT, transfer pricing, and international tax structures — ensuring you pay what you owe, and not a penny more.",
+    features: [
+      'UAE Corporate Tax (9%) Planning & Compliance',
+      'VAT Registration, Filing & Advisory',
+      'Transfer Pricing Documentation',
+      'Cross-Border Tax Structuring',
+      'OECD Pillar Two (Global Minimum Tax) Compliance',
+      'Tax Due Diligence for M&A Transactions',
+    ],
+  },
+  {
+    icon: FileBarChart,
+    number: '02',
+    title: 'Financial Reporting & IFRS Advisory',
+    description:
+      "BBK's IFRS-certified accountants ensure your financial statements meet the highest international standards. Whether you are transitioning from local GAAP to IFRS, adopting new standards such as IFRS 15, 16, or 17, or preparing for an IPO, our technical expertise ensures your reporting reflects both accuracy and strategic positioning.",
+    features: [],
+  },
+  {
+    icon: Building2,
+    number: '03',
+    title: 'Corporate Services — Company Formation & Residency Visa',
+    description:
+      'From free zone and mainland company formation to residency (Golden) visa preparation, our corporate services team handles the full setup process — trade licensing, bank account facilitation, and Emirates ID coordination — so you can start operating in the UAE with confidence.',
+    features: [
+      'Free Zone & Mainland Company Formation',
+      'Trade Licence Application & Renewal',
+      'Residency (Golden) Visa Preparation',
+      'Corporate Bank Account Facilitation',
+    ],
+  },
+  {
+    icon: Landmark,
+    number: '04',
+    title: 'Corporate Finance & Transaction Advisory',
+    description:
+      'Our corporate finance advisors support businesses through mergers, acquisitions, disposals, and fundraising transactions. We offer independent business valuations, financial due diligence, deal structuring, and post-merger integration — providing the financial intelligence that drives better transaction outcomes.',
+    features: [],
+  },
 ];
 
 const fadeInUp = {
@@ -59,31 +111,13 @@ export function ServicesPage() {
   const fetchServices = async () => {
     setLoading(true);
     try {
-      let query = supabase
-        .from('services')
-        .select('*')
-        .eq('active', true);
+      const params = new URLSearchParams();
+      if (selectedCategory !== 'All') params.set('category', selectedCategory);
+      if (search) params.set('search', search);
+      params.set('sort', sortBy);
 
-      if (selectedCategory !== 'All') {
-        query = query.eq('category', selectedCategory);
-      }
-
-      if (search) {
-        query = query.or(`title.ilike.%${search}%,description.ilike.%${search}%`);
-      }
-
-      if (sortBy === 'price_asc') {
-        query = query.order('price', { ascending: true });
-      } else if (sortBy === 'price_desc') {
-        query = query.order('price', { ascending: false });
-      } else {
-        query = query.order('title', { ascending: true });
-      }
-
-      const { data, error } = await query;
-      if (!error && data) {
-        setServices(data);
-      }
+      const { data } = await api.get<{ data: Service[] }>(`/services?${params.toString()}`);
+      setServices(data);
     } catch (err) {
       console.error('Error fetching services:', err);
     } finally {
@@ -117,13 +151,64 @@ export function ServicesPage() {
               Our Services
             </motion.span>
             <motion.h1 variants={fadeInUp} className="text-4xl md:text-5xl font-bold text-white mb-6">
-              Comprehensive Consulting Solutions
+              End-to-End Accounting &amp; Financial Advisory Services
             </motion.h1>
             <motion.p variants={fadeInUp} className="text-lg text-slate-300">
-              Expert services tailored to your business needs. From strategy to execution,
-              we're with you every step of the way.
+              From statutory audit to digital CFO services, BBK Consultancy offers a complete suite
+              of accounting, tax, and financial consulting solutions — including UAE Corporate Tax,
+              VAT, and free zone company formation — designed to support your business at every
+              stage of growth.
             </motion.p>
           </motion.div>
+        </div>
+      </section>
+
+      {/* Core Service Details */}
+      <section className="section">
+        <div className="container-custom">
+          <motion.div
+            initial="initial"
+            whileInView="animate"
+            viewport={{ once: true }}
+            variants={staggerContainer}
+            className="text-center mb-12"
+          >
+            <motion.span variants={fadeInUp} className="badge-primary mb-4">
+              Core Services
+            </motion.span>
+            <motion.h2 variants={fadeInUp}>Where BBK Consultancy Delivers Most Value</motion.h2>
+          </motion.div>
+
+          <div className="space-y-10">
+            {coreServices.map((service) => (
+              <motion.div
+                key={service.title}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                className="card p-8 md:p-10 grid md:grid-cols-[auto_1fr] gap-6"
+              >
+                <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-primary-100 to-primary-50 dark:from-primary-900/30 dark:to-primary-800/20 flex items-center justify-center">
+                  <service.icon className="w-8 h-8 text-primary-600" />
+                </div>
+                <div>
+                  <span className="text-primary-600 font-semibold text-sm">{service.number}</span>
+                  <h2 className="text-2xl font-bold mt-1 mb-3">{service.title}</h2>
+                  <p className="text-slate-500 leading-relaxed mb-5">{service.description}</p>
+                  {service.features.length > 0 && (
+                    <div className="grid sm:grid-cols-2 gap-3">
+                      {service.features.map((feature) => (
+                        <div key={feature} className="flex items-start gap-2">
+                          <CheckCircle2 className="w-5 h-5 text-primary-600 flex-shrink-0 mt-0.5" />
+                          <span className="text-sm text-slate-600 dark:text-slate-300">{feature}</span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </motion.div>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -229,7 +314,7 @@ export function ServicesPage() {
                           <div className="flex items-center gap-2 text-slate-500">
                             <DollarSign className="w-5 h-5 text-primary-600" />
                             <span className="text-2xl font-bold text-slate-900 dark:text-white">
-                              {service.price.toLocaleString()}
+                              AED {service.price.toLocaleString()}
                             </span>
                           </div>
                           <div className="flex items-center gap-1 text-slate-400 text-sm">
@@ -288,11 +373,11 @@ export function ServicesPage() {
               Need a Custom Solution?
             </h2>
             <p className="text-slate-300 mb-8 max-w-2xl mx-auto">
-              Our team can create tailored consulting packages that address your unique
-              business challenges. Let's discuss your needs.
+              Our senior-led teams can create tailored accounting and advisory engagements that
+              address your unique financial challenges. Let's discuss your needs.
             </p>
             <Link to="/consultants" className="btn-lg btn-gold">
-              Find a Consultant
+              Talk to an Advisor
               <ArrowRight className="w-5 h-5" />
             </Link>
           </motion.div>

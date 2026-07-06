@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from 'react';
-import { useSearchParams, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   ArrowLeft,
@@ -12,9 +12,9 @@ import {
   CheckCircle2,
   Search,
 } from 'lucide-react';
-import { supabase } from '../../lib/supabase';
+import { api } from '../../lib/api';
 import { useAuth } from '../../context/AuthContext';
-import type { Message, MessageWithSender, AppointmentWithDetails } from '../../types/database.types';
+import type { MessageWithSender, AppointmentWithDetails } from '../../types/database.types';
 
 interface Conversation {
   appointment: AppointmentWithDetails;
@@ -22,8 +22,9 @@ interface Conversation {
   unreadCount: number;
 }
 
+const POLL_INTERVAL_MS = 4000;
+
 export function MessagesPage() {
-  const [searchParams] = useSearchParams();
   const { user } = useAuth();
   const [conversations, setConversations] = useState<Conversation[]>([]);
   const [selectedConversation, setSelectedConversation] = useState<Conversation | null>(null);
@@ -41,10 +42,14 @@ export function MessagesPage() {
   }, [user]);
 
   useEffect(() => {
-    if (selectedConversation) {
+    if (!selectedConversation) return;
+
+    fetchMessages(selectedConversation.appointment.id);
+    const interval = setInterval(() => {
       fetchMessages(selectedConversation.appointment.id);
-      subscribeToMessages(selectedConversation.appointment.id);
-    }
+    }, POLL_INTERVAL_MS);
+
+    return () => clearInterval(interval);
   }, [selectedConversation]);
 
   useEffect(() => {
@@ -58,100 +63,23 @@ export function MessagesPage() {
   const fetchConversations = async () => {
     if (!user) return;
 
-    const { data: appointments } = await supabase
-      .from('appointments')
-      .select(`
-        *,
-        client:users!client_id(*),
-        consultant:consultants(*, user:users(*)),
-        service:services(*)
-      `)
-      .or(`client_id.eq.${user.id}`)
-      .order('created_at', { ascending: false });
-
-    if (appointments) {
-      const convos: Conversation[] = await Promise.all(
-        appointments.map(async (appointment) => {
-          const { data: lastMsg } = await supabase
-            .from('messages')
-            .select('*, sender:users!sender_id(*)')
-            .eq('appointment_id', appointment.id)
-            .order('created_at', { ascending: false })
-            .limit(1)
-            .maybeSingle();
-
-          const { count } = await supabase
-            .from('messages')
-            .select('*', { count: 'exact', head: true })
-            .eq('appointment_id', appointment.id)
-            .eq('receiver_id', user.id)
-            .eq('read', false);
-
-          return {
-            appointment: appointment as AppointmentWithDetails,
-            lastMessage: lastMsg as MessageWithSender,
-            unreadCount: count || 0,
-          };
-        })
-      );
-
-      setConversations(convos);
+    try {
+      const { data } = await api.get<{ data: Conversation[] }>('/messages/conversations');
+      setConversations(data);
+    } catch (err) {
+      console.error('Error fetching conversations:', err);
+    } finally {
+      setLoading(false);
     }
-
-    setLoading(false);
   };
 
   const fetchMessages = async (appointmentId: string) => {
-    const { data } = await supabase
-      .from('messages')
-      .select('*, sender:users!sender_id(*)')
-      .eq('appointment_id', appointmentId)
-      .order('created_at', { ascending: true });
-
-    if (data) {
-      setMessages(data as MessageWithSender[]);
-
-      // Mark messages as read
-      await supabase
-        .from('messages')
-        .update({ read: true })
-        .eq('appointment_id', appointmentId)
-        .eq('receiver_id', user?.id)
-        .eq('read', false);
+    try {
+      const { data } = await api.get<{ data: MessageWithSender[] }>(`/messages/${appointmentId}`);
+      setMessages(data);
+    } catch (err) {
+      console.error('Error fetching messages:', err);
     }
-  };
-
-  const subscribeToMessages = (appointmentId: string) => {
-    const channel = supabase
-      .channel(`messages:${appointmentId}`)
-      .on(
-        'postgres_changes',
-        {
-          event: 'INSERT',
-          schema: 'public',
-          table: 'messages',
-          filter: `appointment_id=eq.${appointmentId}`,
-        },
-        (payload) => {
-          const newMsg = payload.new as Message;
-          // Fetch the sender info
-          supabase
-            .from('users')
-            .select('*')
-            .eq('id', newMsg.sender_id)
-            .single()
-            .then(({ data: sender }) => {
-              if (sender) {
-                setMessages((prev) => [...prev, { ...newMsg, sender }]);
-              }
-            });
-        }
-      )
-      .subscribe();
-
-    return () => {
-      supabase.removeChannel(channel);
-    };
   };
 
   const handleSendMessage = async (e: React.FormEvent) => {
@@ -165,18 +93,19 @@ export function MessagesPage() {
         ? selectedConversation.appointment.consultant.user_id
         : selectedConversation.appointment.client_id;
 
-    const { error } = await supabase.from('messages').insert({
-      appointment_id: selectedConversation.appointment.id,
-      sender_id: user.id,
-      receiver_id: receiverId,
-      content: newMessage,
-    });
-
-    if (!error) {
+    try {
+      await api.post('/messages', {
+        appointment_id: selectedConversation.appointment.id,
+        receiver_id: receiverId,
+        content: newMessage,
+      });
       setNewMessage('');
+      await fetchMessages(selectedConversation.appointment.id);
+    } catch (err) {
+      console.error('Error sending message:', err);
+    } finally {
+      setSending(false);
     }
-
-    setSending(false);
   };
 
   const getOtherParticipant = (convo: Conversation) => {
@@ -309,7 +238,7 @@ export function MessagesPage() {
                     <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary-400 to-primary-600 flex items-center justify-center text-white">
                       {getOtherParticipant(selectedConversation)?.avatar_url ? (
                         <img
-                          src={getOtherParticipant(selectedConversation)?.avatar_url}
+                          src={getOtherParticipant(selectedConversation)?.avatar_url ?? undefined}
                           alt=""
                           className="w-full h-full rounded-full object-cover"
                         />

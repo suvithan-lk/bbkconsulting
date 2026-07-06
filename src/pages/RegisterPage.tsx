@@ -12,7 +12,6 @@ import {
   Loader2,
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
-import { supabase } from '../lib/supabase';
 
 const roles = [
   { value: 'client', label: 'Client', description: 'Book consultations and get expert advice' },
@@ -51,51 +50,11 @@ export function RegisterPage() {
       return;
     }
 
-    const { error: signUpError } = await signUp(email, password, name);
+    const { error: signUpError } = await signUp(email, password, name, role);
 
     if (signUpError) {
       setError(signUpError.message);
       return;
-    }
-
-    // Create profile in users table
-    const { data: { session } } = await supabase.auth.getSession();
-
-    if (session?.user) {
-      const { error: profileError } = await supabase.from('users').insert({
-        id: session.user.id,
-        name,
-        email,
-        role,
-      });
-
-      if (profileError) {
-        console.error('Error creating profile:', profileError);
-      }
-
-      // If consultant, create consultant profile
-      if (role === 'consultant') {
-        const { error: consultantError } = await supabase.from('consultants').insert({
-          user_id: session.user.id,
-          specialization: 'General Consulting',
-          hourly_rate: 100,
-          experience_years: 0,
-          bio: '',
-          availability: {
-            monday: { start: '09:00', end: '17:00', available: true },
-            tuesday: { start: '09:00', end: '17:00', available: true },
-            wednesday: { start: '09:00', end: '17:00', available: true },
-            thursday: { start: '09:00', end: '17:00', available: true },
-            friday: { start: '09:00', end: '17:00', available: true },
-            saturday: { available: false },
-            sunday: { available: false },
-          },
-        });
-
-        if (consultantError) {
-          console.error('Error creating consultant profile:', consultantError);
-        }
-      }
     }
 
     setSuccess(true);

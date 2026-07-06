@@ -5,15 +5,12 @@ import {
   Search,
   Filter,
   Star,
-  MapPin,
-  Briefcase,
   Clock,
   SortAsc,
   ArrowRight,
   Users,
-  Award,
 } from 'lucide-react';
-import { supabase } from '../lib/supabase';
+import { api } from '../lib/api';
 import type { ConsultantWithUser } from '../types/database.types';
 
 const specializations = [
@@ -62,31 +59,13 @@ export function ConsultantsPage() {
   const fetchConsultants = async () => {
     setLoading(true);
     try {
-      let query = supabase
-        .from('consultants')
-        .select('*, user:users(*)')
-        .eq('verified', true);
+      const params = new URLSearchParams();
+      if (selectedSpec !== 'All') params.set('spec', selectedSpec);
+      if (search) params.set('search', search);
+      params.set('sort', sortBy);
 
-      if (selectedSpec !== 'All') {
-        query = query.eq('specialization', selectedSpec);
-      }
-
-      if (search) {
-        query = query.or(`specialization.ilike.%${search}%,bio.ilike.%${search}%`);
-      }
-
-      if (sortBy === 'rating') {
-        query = query.order('rating', { ascending: false });
-      } else if (sortBy === 'experience') {
-        query = query.order('experience_years', { ascending: false });
-      } else {
-        query = query.order('hourly_rate', { ascending: true });
-      }
-
-      const { data, error } = await query;
-      if (!error && data) {
-        setConsultants(data as ConsultantWithUser[]);
-      }
+      const { data } = await api.get<{ data: ConsultantWithUser[] }>(`/consultants?${params.toString()}`);
+      setConsultants(data);
     } catch (err) {
       console.error('Error fetching consultants:', err);
     } finally {

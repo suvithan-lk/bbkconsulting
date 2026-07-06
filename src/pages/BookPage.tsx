@@ -6,13 +6,12 @@ import {
   ArrowRight,
   Check,
   Calendar,
-  Clock,
   User,
   CreditCard,
   Briefcase,
   Loader2,
 } from 'lucide-react';
-import { supabase } from '../lib/supabase';
+import { api } from '../lib/api';
 import { useAuth } from '../context/AuthContext';
 import type { Service, ConsultantWithUser } from '../types/database.types';
 
@@ -60,24 +59,17 @@ export function BookPage() {
   }, [selectedService]);
 
   const fetchServices = async () => {
-    const { data } = await supabase
-      .from('services')
-      .select('*')
-      .eq('active', true);
-    if (data) setServices(data);
+    const { data } = await api.get<{ data: Service[] }>('/services');
+    setServices(data);
   };
 
   const fetchConsultants = async (serviceId: string) => {
     const service = services.find((s) => s.id === serviceId);
     if (!service) return;
 
-    const { data } = await supabase
-      .from('consultants')
-      .select('*, user:users(*)')
-      .eq('specialization', service.category)
-      .eq('verified', true);
-
-    if (data) setConsultants(data as ConsultantWithUser[]);
+    const params = new URLSearchParams({ spec: service.category });
+    const { data } = await api.get<{ data: ConsultantWithUser[] }>(`/consultants?${params.toString()}`);
+    setConsultants(data);
   };
 
   const canProceed = () => {
@@ -113,22 +105,19 @@ export function BookPage() {
 
     setLoading(true);
 
-    const service = services.find((s) => s.id === selectedService);
-
-    const { error } = await supabase.from('appointments').insert({
-      client_id: user.id,
-      consultant_id: selectedConsultant,
-      service_id: selectedService,
-      scheduled_date: selectedDate,
-      scheduled_time: selectedTime,
-      notes,
-      status: 'pending',
-    });
-
-    setLoading(false);
-
-    if (!error) {
+    try {
+      await api.post('/appointments', {
+        consultant_id: selectedConsultant,
+        service_id: selectedService,
+        scheduled_date: selectedDate,
+        scheduled_time: selectedTime,
+        notes,
+      });
       navigate('/client/dashboard?booking=success');
+    } catch (err) {
+      console.error('Error booking appointment:', err);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -254,7 +243,7 @@ export function BookPage() {
                         <h3 className="font-semibold mb-1">{service.title}</h3>
                         <p className="text-sm text-slate-500 mb-3">{service.category}</p>
                         <p className="text-xl font-bold text-primary-600">
-                          ${service.price.toLocaleString()}
+                          AED {service.price.toLocaleString()}
                         </p>
                       </div>
                       <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center ${
@@ -429,7 +418,7 @@ export function BookPage() {
                     </div>
                   </div>
                   <p className="font-bold text-primary-600">
-                    ${selectedServiceData?.price.toLocaleString()}
+                    AED {selectedServiceData?.price.toLocaleString()}
                   </p>
                 </div>
 

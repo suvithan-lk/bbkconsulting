@@ -6,46 +6,45 @@ import {
   Users,
   Award,
   Briefcase,
-  Clock,
   Star,
-  ChevronRight,
   TrendingUp,
   Shield,
   Zap,
+  CheckCircle2,
 } from 'lucide-react';
-import { supabase } from '../lib/supabase';
+import { api } from '../lib/api';
 import type { Service, ConsultantWithUser } from '../types/database.types';
 
 const stats = [
-  { icon: Users, value: '500+', label: 'Happy Clients' },
-  { icon: Briefcase, value: '1,200+', label: 'Projects Completed' },
-  { icon: Award, value: '50+', label: 'Expert Consultants' },
+  { icon: Users, value: '500+', label: 'Businesses Served' },
+  { icon: Briefcase, value: '1,200+', label: 'Engagements Delivered' },
+  { icon: Award, value: '50+', label: 'Certified Accountants' },
   { icon: Star, value: '4.9', label: 'Average Rating' },
 ];
 
 const features = [
   {
     icon: TrendingUp,
-    title: 'Strategic Planning',
-    description: 'Data-driven strategies to accelerate your business growth and market expansion.',
+    title: 'Tax Consulting',
+    description: 'Strategic tax structuring, compliance filings, and multi-jurisdiction tax optimisation.',
   },
   {
     icon: Shield,
-    title: 'Risk Management',
-    description: 'Comprehensive risk assessment and mitigation strategies for sustainable success.',
+    title: 'Financial Reporting (IFRS / GAAP)',
+    description: 'Full-cycle financial statement preparation and international standards compliance.',
   },
   {
     icon: Zap,
-    title: 'Digital Transformation',
-    description: 'Modernize your operations with cutting-edge technology solutions.',
+    title: 'Corporate Services',
+    description: 'Company formation, residency visa preparation, M&A due diligence, valuations, and restructuring.',
   },
 ];
 
 const categories = [
-  { name: 'Business Strategy', count: 24, image: 'https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=400' },
-  { name: 'Financial Advisory', count: 18, image: 'https://images.pexels.com/photos/3943723/pexels-photo-3943723.jpeg?auto=compress&cs=tinysrgb&w=400' },
-  { name: 'IT Consulting', count: 32, image: 'https://images.pexels.com/photos/1181671/pexels-photo-1181671.jpeg?auto=compress&cs=tinysrgb&w=400' },
-  { name: 'Legal Consultation', count: 12, image: 'https://images.pexels.com/photos/4427380/pexels-photo-4427380.jpeg?auto=compress&cs=tinysrgb&w=400' },
+  { name: 'Financial Services & Banking', tag: 'IFRS 9 & Basel', image: 'https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=400' },
+  { name: 'Real Estate & Construction', tag: 'IFRS 16 Leases', image: 'https://images.pexels.com/photos/3943723/pexels-photo-3943723.jpeg?auto=compress&cs=tinysrgb&w=400' },
+  { name: 'Technology & SaaS', tag: 'Revenue Recognition', image: 'https://images.pexels.com/photos/1181671/pexels-photo-1181671.jpeg?auto=compress&cs=tinysrgb&w=400' },
+  { name: 'Healthcare & Life Sciences', tag: 'Grant Accounting', image: 'https://images.pexels.com/photos/4427380/pexels-photo-4427380.jpeg?auto=compress&cs=tinysrgb&w=400' },
 ];
 
 const fadeInUp = {
@@ -74,20 +73,12 @@ export function HomePage() {
   const fetchData = async () => {
     try {
       const [servicesRes, consultantsRes] = await Promise.all([
-        supabase
-          .from('services')
-          .select('*')
-          .eq('active', true)
-          .limit(6),
-        supabase
-          .from('consultants')
-          .select('*, user:users(*)')
-          .eq('verified', true)
-          .limit(4),
+        api.get<{ data: Service[] }>('/services'),
+        api.get<{ data: ConsultantWithUser[] }>('/consultants'),
       ]);
 
-      if (servicesRes.data) setServices(servicesRes.data);
-      if (consultantsRes.data) setConsultants(consultantsRes.data as ConsultantWithUser[]);
+      setServices(servicesRes.data.slice(0, 6));
+      setConsultants(consultantsRes.data.slice(0, 4));
     } catch (error) {
       console.error('Error fetching data:', error);
     } finally {
@@ -121,7 +112,7 @@ export function HomePage() {
             <motion.div variants={fadeInUp} className="mb-6">
               <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 text-white/90 text-sm">
                 <Star className="w-4 h-4 text-gold-400 fill-gold-400" />
-                Trusted by 500+ businesses worldwide
+                Dubai, UAE | UAE Corporate Tax &amp; VAT Compliant | Free Zone &amp; Mainland
               </span>
             </motion.div>
 
@@ -129,9 +120,9 @@ export function HomePage() {
               variants={fadeInUp}
               className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight"
             >
-              Transform Your Business With
+              Expert Accounting Consultancy
               <span className="block text-transparent bg-clip-text bg-gradient-to-r from-primary-300 to-gold-400">
-                Expert Consultancy
+                Services for Businesses Across the UAE
               </span>
             </motion.h1>
 
@@ -139,8 +130,9 @@ export function HomePage() {
               variants={fadeInUp}
               className="text-lg md:text-xl text-slate-300 mb-8 max-w-2xl"
             >
-              Connect with industry-leading consultants who understand your challenges and deliver
-              actionable strategies for sustainable growth and innovation.
+              BBK Consultancy delivers world-class accounting advisory, UAE Corporate Tax and VAT
+              planning, audit support, and free zone &amp; mainland company formation — trusted by
+              businesses across the UAE seeking clarity, confidence, and measurable growth.
             </motion.p>
 
             <motion.div variants={fadeInUp} className="flex flex-col sm:flex-row gap-4">
@@ -148,8 +140,8 @@ export function HomePage() {
                 Explore Services
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </Link>
-              <Link to="/consultants" className="btn-lg btn-secondary bg-white/10 hover:bg-white/20 text-white border-white/20">
-                Meet Our Consultants
+              <Link to="/contact" className="btn-lg btn-secondary bg-white/10 hover:bg-white/20 text-white border-white/20">
+                Get a Free Consultation
               </Link>
             </motion.div>
 
@@ -165,7 +157,7 @@ export function HomePage() {
                 ))}
               </div>
               <div className="text-white/80">
-                <p className="font-medium">Join 1,200+ happy clients</p>
+                <p className="font-medium">Join 500+ businesses that trust BBK</p>
                 <div className="flex items-center gap-1 mt-0.5">
                   {[1, 2, 3, 4, 5].map((i) => (
                     <Star key={i} className="w-4 h-4 text-gold-400 fill-gold-400" />
@@ -208,14 +200,15 @@ export function HomePage() {
             className="text-center mb-16"
           >
             <motion.span variants={fadeInUp} className="badge-primary mb-4">
-              Why Choose Us
+              Where Financial Expertise Meets Strategic Vision
             </motion.span>
             <motion.h2 variants={fadeInUp} className="mb-4">
-              Expert Guidance for Your Growth
+              Our Core Services
             </motion.h2>
             <motion.p variants={fadeInUp} className="text-slate-500 max-w-2xl mx-auto">
-              Our team of seasoned professionals brings decades of combined experience across
-              multiple industries to help you achieve your business objectives.
+              In a global landscape where accounting standards evolve rapidly and financial risks
+              multiply, BBK Consultancy stands as your steadfast partner — combining the precision
+              of the world's best accounting methodologies with locally responsive, client-first service.
             </motion.p>
           </motion.div>
 
@@ -243,6 +236,51 @@ export function HomePage() {
         </div>
       </section>
 
+      {/* Why Businesses Choose BBK Section */}
+      <section className="section">
+        <div className="container-custom">
+          <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+            >
+              <span className="badge-primary mb-4">Why BBK</span>
+              <h2 className="mb-6">Why Businesses Choose BBK Consultancy</h2>
+              <p className="text-slate-500 leading-relaxed mb-4">
+                BBK Consultancy is recognised among the leading accounting consulting firms for its
+                combination of technical expertise, strategic insight, and personalised client
+                service. Unlike Big Four firms where smaller clients receive limited senior
+                attention, BBK ensures that every engagement is led by experienced professionals
+                committed to your success.
+              </p>
+              <p className="text-slate-500 leading-relaxed">
+                Our certified accountants and financial advisors hold qualifications from
+                internationally recognised bodies including ACCA, CPA, and ICAI. We stay ahead of
+                evolving standards — from IFRS 17 insurance contracts to OECD Pillar Two global
+                minimum tax requirements — so your business remains compliant and competitive.
+              </p>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              className="grid sm:grid-cols-2 gap-4"
+            >
+              {['ACCA Certified Professionals', 'CPA Qualified Advisors', 'VAT Registered Advisors', 'OECD Tax Compliant Practitioners'].map(
+                (credential) => (
+                  <div key={credential} className="card p-5 flex items-center gap-3">
+                    <CheckCircle2 className="w-6 h-6 text-primary-600 flex-shrink-0" />
+                    <span className="font-medium text-slate-900 dark:text-white text-sm">{credential}</span>
+                  </div>
+                )
+              )}
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
       {/* Services Section */}
       <section className="section bg-slate-50 dark:bg-slate-900/50">
         <div className="container-custom">
@@ -257,11 +295,11 @@ export function HomePage() {
               Our Services
             </motion.span>
             <motion.h2 variants={fadeInUp} className="mb-4">
-              Comprehensive Business Solutions
+              End-to-End Accounting &amp; Financial Advisory
             </motion.h2>
             <motion.p variants={fadeInUp} className="text-slate-500 max-w-2xl mx-auto">
-              From strategy development to implementation, we offer end-to-end consulting services
-              tailored to your unique needs.
+              From statutory audit to digital CFO services, we offer a complete suite of accounting,
+              tax, and financial consulting solutions designed to support your business at every stage.
             </motion.p>
           </motion.div>
 
@@ -300,7 +338,7 @@ export function HomePage() {
                     </p>
                     <div className="flex items-center justify-between">
                       <span className="text-primary-600 font-semibold">
-                        ${service.price.toLocaleString()}
+                        AED {service.price.toLocaleString()}
                       </span>
                       <span className="badge badge-primary">
                         {service.category}
@@ -334,10 +372,11 @@ export function HomePage() {
               Industries
             </motion.span>
             <motion.h2 variants={fadeInUp} className="mb-4">
-              Specialized Expertise
+              Accounting Expertise Tailored to Your Industry
             </motion.h2>
             <motion.p variants={fadeInUp} className="text-slate-500 max-w-2xl mx-auto">
-              We bring deep industry knowledge across multiple sectors to deliver tailored solutions.
+              Generic accounting advice costs businesses dearly. We bring deep sector-specific
+              knowledge to every engagement.
             </motion.p>
           </motion.div>
 
@@ -351,7 +390,7 @@ export function HomePage() {
             {categories.map((category) => (
               <motion.div key={category.name} variants={fadeInUp}>
                 <Link
-                  to={`/services?category=${category.name.toLowerCase().replace(' ', '-')}`}
+                  to="/industries"
                   className="group relative rounded-2xl overflow-hidden aspect-[4/3] block"
                 >
                   <img
@@ -362,12 +401,18 @@ export function HomePage() {
                   <div className="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/40 to-transparent" />
                   <div className="absolute bottom-0 left-0 right-0 p-6">
                     <h3 className="text-white font-semibold text-lg mb-1">{category.name}</h3>
-                    <p className="text-slate-300 text-sm">{category.count} consultants</p>
+                    <p className="text-slate-300 text-sm">{category.tag}</p>
                   </div>
                 </Link>
               </motion.div>
             ))}
           </motion.div>
+
+          <div className="text-center mt-10">
+            <Link to="/industries" className="btn-outline">
+              View All Industries <ArrowRight className="w-4 h-4" />
+            </Link>
+          </div>
         </div>
       </section>
 
@@ -467,11 +512,11 @@ export function HomePage() {
             className="max-w-3xl mx-auto text-center"
           >
             <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
-              Ready to Transform Your Business?
+              Start Your Journey to Financial Excellence Today
             </h2>
             <p className="text-slate-300 text-lg mb-8">
-              Book a free consultation with our experts and discover how we can help you achieve
-              your goals. No commitment required.
+              Book a free, no-obligation consultation with a senior accounting professional and
+              discover how BBK Consultancy can help you achieve your goals.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link to="/register" className="btn-lg btn-gold">

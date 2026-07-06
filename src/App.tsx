@@ -1,6 +1,5 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './context/AuthContext';
-import { ThemeProvider } from './context/ThemeContext';
 import { NotificationProvider } from './context/NotificationContext';
 import { Layout } from './components/layout/Layout';
 
@@ -15,6 +14,12 @@ import { ContactPage } from './pages/ContactPage';
 import { LoginPage } from './pages/LoginPage';
 import { RegisterPage } from './pages/RegisterPage';
 import { BookPage } from './pages/BookPage';
+import { WhyBbkPage } from './pages/WhyBbkPage';
+import { IndustriesPage } from './pages/IndustriesPage';
+import { GlobalLandscapePage } from './pages/GlobalLandscapePage';
+import { CaseStudiesPage } from './pages/CaseStudiesPage';
+import { OurProcessPage } from './pages/OurProcessPage';
+import { FaqPage } from './pages/FaqPage';
 
 // Dashboard Pages
 import { ClientDashboard } from './pages/client/ClientDashboard';
@@ -48,6 +53,12 @@ function AppRoutes() {
         <Route path="/about" element={<AboutPage />} />
         <Route path="/services" element={<ServicesPage />} />
         <Route path="/services/:id" element={<ServiceDetailPage />} />
+        <Route path="/why-bbk" element={<WhyBbkPage />} />
+        <Route path="/industries" element={<IndustriesPage />} />
+        <Route path="/global-accounting-landscape" element={<GlobalLandscapePage />} />
+        <Route path="/case-studies" element={<CaseStudiesPage />} />
+        <Route path="/our-process" element={<OurProcessPage />} />
+        <Route path="/faq" element={<FaqPage />} />
         <Route path="/consultants" element={<ConsultantsPage />} />
         <Route path="/consultants/:id" element={<ConsultantDetailPage />} />
         <Route path="/contact" element={<ContactPage />} />
@@ -112,13 +123,11 @@ function AdminDashboardPage() {
 function App() {
   return (
     <BrowserRouter>
-      <ThemeProvider>
-        <AuthProvider>
-          <NotificationProvider>
-            <AppRoutes />
-          </NotificationProvider>
-        </AuthProvider>
-      </ThemeProvider>
+      <AuthProvider>
+        <NotificationProvider>
+          <AppRoutes />
+        </NotificationProvider>
+      </AuthProvider>
     </BrowserRouter>
   );
 }
