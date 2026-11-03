@@ -11,7 +11,6 @@ import {
   SortAsc,
   ScrollText,
   FileBarChart,
-  Landmark,
   Building2,
   CheckCircle2,
 } from 'lucide-react';
@@ -23,8 +22,6 @@ const categories = [
   'Tax Advisory',
   'Financial Reporting',
   'Corporate Services',
-  'Corporate Finance',
-  'Audit & Assurance',
   'Cloud Accounting',
 ];
 
@@ -41,7 +38,7 @@ const coreServices = [
       'Transfer Pricing Documentation',
       'Cross-Border Tax Structuring',
       'OECD Pillar Two (Global Minimum Tax) Compliance',
-      'Tax Due Diligence for M&A Transactions',
+      'Tax Return Preparation & Filing',
     ],
   },
   {
@@ -49,28 +46,15 @@ const coreServices = [
     number: '02',
     title: 'Financial Reporting & IFRS Advisory',
     description:
-      "BBK's IFRS-certified accountants ensure your financial statements meet the highest international standards. Whether you are transitioning from local GAAP to IFRS, adopting new standards such as IFRS 15, 16, or 17, or preparing for an IPO, our technical expertise ensures your reporting reflects both accuracy and strategic positioning.",
+      "BBK's accounting team supports financial statement preparation and IFRS reporting, including transitions from local GAAP and implementation of standards such as IFRS 15, 16, or 17.",
     features: [],
   },
   {
     icon: Building2,
     number: '03',
-    title: 'Corporate Services — Company Formation & Residency Visa',
+    title: 'Corporate Services Provider (CSP)',
     description:
-      'From free zone and mainland company formation to residency (Golden) visa preparation, our corporate services team handles the full setup process — trade licensing, bank account facilitation, and Emirates ID coordination — so you can start operating in the UAE with confidence.',
-    features: [
-      'Free Zone & Mainland Company Formation',
-      'Trade Licence Application & Renewal',
-      'Residency (Golden) Visa Preparation',
-      'Corporate Bank Account Facilitation',
-    ],
-  },
-  {
-    icon: Landmark,
-    number: '04',
-    title: 'Corporate Finance & Transaction Advisory',
-    description:
-      'Our corporate finance advisors support businesses through mergers, acquisitions, disposals, and fundraising transactions. We offer independent business valuations, financial due diligence, deal structuring, and post-merger integration — providing the financial intelligence that drives better transaction outcomes.',
+      'BBK CONSULTING FZCO provides corporate services within the scope of its DMCC licence and applicable approvals.',
     features: [],
   },
 ];
@@ -160,10 +144,9 @@ export function ServicesPage() {
               End-to-End Accounting &amp; Financial Advisory Services
             </motion.h1>
             <motion.p variants={fadeInUp} className="text-lg text-slate-300">
-              From statutory audit to digital CFO services, BBK Consultancy offers a complete suite
-              of accounting, tax, and financial consulting solutions — including UAE Corporate Tax,
-              VAT, and free zone company formation — designed to support your business at every
-              stage of growth.
+              BBK CONSULTING FZCO provides tax consulting, accounting and bookkeeping, and corporate
+              services under its DMCC licence. The licence excludes legal advice and financial
+              auditing.
             </motion.p>
           </motion.div>
         </div>

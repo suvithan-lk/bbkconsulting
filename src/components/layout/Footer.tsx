@@ -19,8 +19,8 @@ const footerLinks = {
   ],
   services: [
     { name: 'Tax Advisory & Compliance', href: '/services' },
-    { name: 'Financial Reporting (IFRS/GAAP)', href: '/services' },
-    { name: 'Corporate Finance Advisory', href: '/services' },
+    { name: 'Accounting & Bookkeeping', href: '/services' },
+    { name: 'Corporate Services', href: '/services' },
     { name: 'Industries We Serve', href: '/industries' },
   ],
   resources: [
@@ -79,21 +79,22 @@ export function Footer() {
               <img src="/BBK_Logo.png" alt="BBK Consultancy" className="h-14 w-auto object-contain" />
             </Link>
             <p className="text-slate-400 mb-6 max-w-xs">
-              Expert accounting advisory, tax planning, audit support, and financial compliance
-              services — trusted by growing businesses worldwide.
+              BBK CONSULTING FZCO is licensed by DMCC for tax consulting, accounting and
+              bookkeeping, and corporate services. The licence excludes legal advice and financial
+              auditing.
             </p>
             <div className="space-y-3">
               <div className="flex items-center gap-3 text-slate-400">
                 <Mail className="w-5 h-5 text-primary-500" />
-                <span>contact@bbkca.ae</span>
+                <span>suba@bbkca.ae</span>
               </div>
               <div className="flex items-center gap-3 text-slate-400">
                 <Phone className="w-5 h-5 text-primary-500" />
-                <span>+971 4 123 4567</span>
+                <span>+971 50 361 6447</span>
               </div>
               <div className="flex items-start gap-3 text-slate-400">
                 <MapPin className="w-5 h-5 text-primary-500 mt-0.5" />
-                <span>Office 1204, Business Bay<br />Dubai, United Arab Emirates</span>
+                <span>Registered / principal address:<br />Unit 1960, DMCC Business Centre<br />Level 1, Jewellery &amp; Gemplex 3<br />Dubai, United Arab Emirates</span>
               </div>
             </div>
           </div>

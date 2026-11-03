@@ -13,24 +13,6 @@ const caseStudies = [
       'On-time IFRS 16 adoption, zero restatement risk, and a 35% reduction in manual lease administration through automation.',
   },
   {
-    title: 'Pharma Start-Up — IPO Financial Readiness',
-    challenge:
-      'A fast-growing pharmaceutical company needed to overhaul financial controls, restate three years of accounts under IFRS, and prepare investor-grade financial documentation for an upcoming IPO.',
-    solution:
-      'Full financial due diligence, IFRS restatement, internal control gap analysis, and investor presentation preparation completed within an accelerated timeline.',
-    outcome:
-      'Successful IPO completed. Investor confidence secured through a clean audit opinion and a robust financial narrative.',
-  },
-  {
-    title: 'Property Developer — Tax Restructuring',
-    challenge:
-      'A property development group operating across four jurisdictions was paying an effective tax rate significantly above the sector average due to an inefficient corporate structure.',
-    solution:
-      'Comprehensive tax review, cross-border restructuring plan, and transfer pricing policy development — implemented across all operating entities.',
-    outcome:
-      'Annual tax savings of 28%, with full compliance maintained across all jurisdictions.',
-  },
-  {
     title: 'E-Commerce Retailer — Cloud Accounting Migration',
     challenge:
       'Rapid growth had rendered legacy accounting systems unmanageable, leading to month-end delays of three or more weeks and unreliable management accounts.',

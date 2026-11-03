@@ -36,7 +36,7 @@ const features = [
   {
     icon: Zap,
     title: 'Corporate Services',
-    description: 'Company formation, residency visa preparation, M&A due diligence, valuations, and restructuring.',
+    description: 'Corporate services provided within BBK CONSULTING FZCO\'s licensed activities.',
   },
 ];
 
@@ -130,17 +130,16 @@ export function HomePage() {
               variants={fadeInUp}
               className="text-lg md:text-xl text-slate-100/90 mb-4 max-w-2xl leading-relaxed [text-shadow:0_2px_8px_rgba(0,0,0,0.35)]"
             >
-              BBK Consultancy delivers world-class accounting advisory, UAE Corporate Tax and VAT
-              planning, audit support, and free zone &amp; mainland company formation — trusted by
-              businesses across the UAE seeking clarity, confidence, and measurable growth.
+              BBK CONSULTING FZCO provides tax consulting, accounting and bookkeeping, and corporate
+              services for businesses in the UAE.
             </motion.p>
 
             <motion.p
               variants={fadeInUp}
               className="text-sm text-slate-400/90 mb-8 max-w-2xl italic border-l-2 border-gold-400/50 pl-3"
             >
-              The activity must align with the trade license categories: Tax Consultancy,
-              Accounting &amp; Bookkeeping, and Corporate Services providers.
+              DMCC licence activities: Tax Consultant, Accounting &amp; Bookkeeping, and Corporate
+              Services Provider. Legal advice and financial auditing are excluded.
             </motion.p>
 
             <motion.div variants={fadeInUp} className="flex flex-col sm:flex-row gap-4">
@@ -303,11 +302,11 @@ export function HomePage() {
               Our Services
             </motion.span>
             <motion.h2 variants={fadeInUp} className="mb-4">
-              End-to-End Accounting &amp; Financial Advisory
+              Tax, Accounting &amp; Corporate Services
             </motion.h2>
             <motion.p variants={fadeInUp} className="text-slate-500 max-w-2xl mx-auto">
-              From statutory audit to digital CFO services, we offer a complete suite of accounting,
-              tax, and financial consulting solutions designed to support your business at every stage.
+              BBK CONSULTING FZCO provides services within its DMCC-licensed activities: tax
+              consulting, accounting and bookkeeping, and corporate services.
             </motion.p>
           </motion.div>
 
