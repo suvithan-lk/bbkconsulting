@@ -9,8 +9,8 @@ function mapService(row) {
 
 servicesRouter.get('/', async (req, res) => {
   const { category, search, sort } = req.query;
-  const clauses = ['active = true'];
-  const params = [];
+  const clauses = ['active = true', 'category NOT IN (?, ?)'];
+  const params = ['Corporate Finance', 'Audit & Assurance'];
 
   if (category && category !== 'All') {
     clauses.push('category = ?');
@@ -33,6 +33,9 @@ servicesRouter.get('/', async (req, res) => {
 });
 
 servicesRouter.get('/:id', async (req, res) => {
-  const [rows] = await pool.query('SELECT * FROM services WHERE id = ?', [req.params.id]);
+  const [rows] = await pool.query(
+    'SELECT * FROM services WHERE id = ? AND category NOT IN (?, ?)',
+    [req.params.id, 'Corporate Finance', 'Audit & Assurance']
+  );
   res.json({ data: rows[0] ? mapService(rows[0]) : null });
 });

@@ -18,20 +18,20 @@ const contactInfo = [
   {
     icon: Phone,
     title: 'Phone',
-    value: '+971 4 123 4567',
+    value: '+971 50 361 6447',
     description: 'Available Mon-Fri, 8:00am to 6:00pm (UAE time)',
   },
   {
     icon: Mail,
     title: 'Email',
-    value: 'contact@bbkca.ae',
+    value: 'suba@bbkca.ae',
     description: 'Receive a response within 4 business hours',
   },
   {
     icon: MapPin,
     title: 'Visit Our Office',
-    value: 'Office 1204, Business Bay',
-    description: 'Dubai, UAE — private meeting rooms available',
+    value: 'Unit 1960, DMCC Business Centre',
+    description: 'Level 1, Jewellery & Gemplex 3, Dubai, United Arab Emirates',
   },
   {
     icon: Video,
@@ -99,9 +99,8 @@ export function ContactPage() {
               Start Your Journey to Financial Excellence Today
             </motion.h1>
             <motion.p variants={fadeInUp} className="text-lg text-slate-300">
-              Whether you need an urgent audit, tax advisory, or a long-term financial
-              transformation partner — BBK Consultancy is ready. Contact us for a free,
-              no-obligation consultation with a senior accounting professional.
+              Contact BBK CONSULTING FZCO about tax consulting, accounting and bookkeeping, or
+              corporate services. Our DMCC-licensed activities exclude legal advice and financial auditing.
             </motion.p>
           </motion.div>
         </div>
@@ -210,8 +209,8 @@ export function ContactPage() {
                         <option value="">Select a subject</option>
                         <option value="general">General Inquiry</option>
                         <option value="tax">Tax Advisory & Compliance</option>
-                        <option value="audit">Audit & Assurance</option>
-                        <option value="corporate">Corporate Finance</option>
+                        <option value="accounting">Accounting & Bookkeeping</option>
+                        <option value="corporate">Corporate Services</option>
                         <option value="other">Other</option>
                       </select>
                     </div>

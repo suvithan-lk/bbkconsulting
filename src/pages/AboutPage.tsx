@@ -280,8 +280,8 @@ export function AboutPage() {
               Ready to Work With Us?
             </h2>
             <p className="text-slate-300 text-lg mb-8">
-              Join over 500 businesses that trust BBK Consultancy for their accounting advisory,
-              audit, tax, and financial management needs.
+              Contact BBK CONSULTING FZCO for tax consulting, accounting and bookkeeping, or
+              corporate services within its DMCC-licensed activities.
             </p>
             <a href="/contact" className="btn-lg btn-gold">
               Schedule a Consultation

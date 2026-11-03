@@ -122,8 +122,6 @@ CREATE INDEX idx_consultants_specialization ON consultants(specialization);
 -- so the bookable catalog matches the marketing copy shown on the site.
 INSERT INTO services (id, title, description, category, price, duration_minutes) VALUES
 (UUID(), 'Corporate Tax & VAT Consultation', 'Strategic UAE Corporate Tax and VAT planning, compliance filings, and multi-jurisdiction tax optimisation.', 'Tax Advisory', 950.00, 60),
-(UUID(), 'IFRS Financial Statement Review', 'Full-cycle financial statement preparation and IFRS/GAAP compliance review.', 'Financial Reporting', 1200.00, 90),
-(UUID(), 'Free Zone Company Formation', 'End-to-end free zone or mainland company formation, trade licensing, and residency visa preparation.', 'Corporate Services', 2500.00, 60),
-(UUID(), 'M&A Due Diligence Session', 'Independent business valuation, financial due diligence, and deal structuring advisory.', 'Corporate Finance', 1800.00, 90),
-(UUID(), 'Statutory Audit Kickoff', 'Scoping session for statutory audit and assurance engagements.', 'Audit & Assurance', 1400.00, 60),
+(UUID(), 'Accounting & Bookkeeping Consultation', 'Accounting and bookkeeping support for business records and financial reporting preparation.', 'Financial Reporting', 1200.00, 90),
+(UUID(), 'Corporate Services Consultation', 'Corporate services support within the scope of the company\'s licensed activities.', 'Corporate Services', 2500.00, 60),
 (UUID(), 'Cloud Accounting Migration Assessment', 'Assessment for migrating to Xero, QuickBooks, or SAP with process automation recommendations.', 'Cloud Accounting', 850.00, 60);
